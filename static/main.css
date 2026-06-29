@@ -1,0 +1,66 @@
+/* main.css — editorial treatment for the document's meta apparatus.
+   Classes are attached in main.rsm via the :class: metakey. Tokens come
+   from braiid.css and adapt automatically in dark mode. */
+
+/* Author-to-reader meta voice: the reader-orientation note after the abstract
+   and the closing colophon. Set off by a small-caps lead-in label and no other
+   chrome -- no box (it reads as a UI alert) and no left rule (it reads as
+   another handrail). The label carries the register; the body stays plain
+   prose, and the same .meta-label scales to any future aside. */
+.manuscriptwrapper .interactive-note {
+  margin-block: var(--chunk-half) var(--chunk);
+}
+.manuscriptwrapper .colophon {
+  margin-block: var(--chunk) var(--chunk);
+}
+.manuscriptwrapper .interactive-note .hr-content-zone,
+.manuscriptwrapper .structured-note .hr-content-zone,
+.manuscriptwrapper .colophon .hr-content-zone {
+  background: var(--gray-75);
+  border-radius: var(--radius-md);
+  padding: var(--chunk-third) var(--chunk-half);
+}
+/* braiid gives a content-zone's first paragraph an extra top padding; cancel it
+   so the gray box's vertical padding reads symmetric. */
+.manuscriptwrapper .interactive-note .hr-content-zone > p:first-child,
+.manuscriptwrapper .structured-note .hr-content-zone > p:first-child,
+.manuscriptwrapper .colophon .hr-content-zone > p:first-child {
+  padding-top: 0;
+}
+.manuscriptwrapper .interactive-note .hr-content-zone p,
+.manuscriptwrapper .structured-note .hr-content-zone p,
+.manuscriptwrapper .colophon .hr-content-zone p {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-style: italic;
+  /* gray-800 rather than --text-subtle: the subtle token measures 4.19:1 on the
+     gray-75 note background, just under the WCAG 1.4.3 AA floor of 4.5:1. */
+  color: var(--gray-800);
+}
+
+/* The lead-in label: uppercase and letterspaced, smaller than the body, so it
+   announces the aside without any surrounding geometry. */
+.manuscriptwrapper .meta-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78em;
+  font-weight: var(--weight-semi);
+  font-style: normal;
+  /* primary-700, not primary-500: the 500 accent (blue #0E9AE9) at this small
+     label size is 2.86:1 on the gray-75 box; the 700 shade clears 4.5:1 AA. */
+  color: var(--primary-700);
+  margin-right: 0.55em;
+  white-space: nowrap;
+}
+
+/* Print/PDF: the interactive-note tells readers to "use the controls at the
+   left edge of each block", but a static export has no controls, so it only
+   misleads on paper. Hide it. (The colophon and the structured-proofs note
+   carry print-valid content and stay.) */
+@media print {
+  .manuscriptwrapper .interactive-note {
+    display: none !important;
+  }
+}

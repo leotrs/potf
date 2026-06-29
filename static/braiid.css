@@ -1,0 +1,3567 @@
+/* Declare layer order first - unlayered styles will have highest priority */
+@layer base;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('pygments.css') layer(base);
+
+@layer base {
+
+/* Page-level background for dark mode */
+body {
+  background: var(--surface-page);
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+:root {
+  /* Base font size - mobile-first responsive scaling */
+  font-size: 12px;  /* Mobile default (< 640px) */
+
+  /* General */
+  --side-padding: 1rem;    /* Mobile-first, scaled up at breakpoints */
+
+  /* Spacing - chunk system (1 chunk = 3rem: 36px mobile, 42px tablet, 48px desktop) */
+  --chunk: 3rem;              /* base unit */
+  --chunk-twelfth: 0.25rem;   /* chunk ÷ 12 */
+  --chunk-sixth: 0.5rem;      /* chunk ÷ 6 */
+  --chunk-quarter: 0.75rem;   /* chunk ÷ 4 */
+  --chunk-third: 1rem;        /* chunk ÷ 3 */
+  --chunk-half: 1.5rem;       /* chunk ÷ 2 */
+  --chunk-2: 6rem;            /* chunk × 2 */
+  --chunk-3: 9rem;            /* chunk × 3 */
+  --chunk-20: 60rem;          /* chunk × 20 - max manuscript width */
+
+  /* Handrail spacing (scales with viewport: mobile/tablet/desktop) */
+  --hr-zone-width: var(--chunk-third);      /* 12px/14px/16px - width of each zone */
+  --hr-left-total: var(--chunk);            /* 36px/42px/48px - total left region */
+  --hr-right-total: var(--chunk);           /* 36px/42px/48px - info zone width */
+  --hr-total-offset: var(--chunk-2);        /* 72px/84px/96px - left + right combined */
+
+  /* Radius - border radius scale (in rem for responsive scaling) */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;  /* 2px at 16px base - Halmos symbol */
+  --radius-md: 0.25rem;   /* 4px at 16px base - default small elements */
+  --radius-lg: 0.5rem;    /* 8px at 16px base - buttons, handrail controls */
+  --radius-xl: 1rem;      /* 16px at 16px base - cards, modals, tooltips */
+  --radius-full: 50%;     /* circles */
+
+  /* Halmos */
+  --halmos-side-length: 0.5rem;
+  --halmos--ellipsis-width: 1em;
+
+  /* Colors -- Primitive */
+  --gray-1000: #000000;
+  --gray-950: #13181B;
+  --gray-900: #3C4952;
+  --gray-800: #51636F;
+  --gray-700: #5F7186;
+  --gray-750: #6E787F;
+  --gray-600: #8B9FAD;
+  --gray-500: #A9B7C1;
+  --gray-400: #B3BFC7;
+  --gray-300: #C2CCD3;
+  --gray-200: #DAE1E5;
+  --gray-100: #EDF0F2;
+  --gray-75: #F5F7F8;
+  --gray-50: #FCFEFE;
+  --gray-0: #FFFFFF;
+
+  --blue-950: #082C49;
+  --blue-900: #0C456E;
+  --blue-800: #075487;
+  --blue-700: #0361A1;
+  --blue-600: #027AC7;
+  --blue-500: #0E9AE9;
+  --blue-400: #38B4F8;
+  --blue-300: #7DCDFC;
+  --blue-200: #BAE3FD;
+  --blue-100: #E0F1FE;
+  --blue-50: #F0F8FF;
+
+  --purple-950: #370B60;
+  --purple-900: #522182;
+  --purple-800: #6427A2;
+  --purple-700: #7629C7;
+  --purple-600: #8B3BE2;
+  --purple-500: #AD71F2;
+  --purple-400: #BB89F7;
+  --purple-300: #D5B7FB;
+  --purple-200: #E7D7FD;
+  --purple-100: #F2E9FE;
+  --purple-50: #FAF5FF;
+
+  --green-950: #072C2B;
+  --green-900: #174A46;
+  --green-800: #165954;
+  --green-700: #157067;
+  --green-600: #158C7F;
+  --green-500: #1FB5A2;
+  --green-400: #37CAB6;
+  --green-300: #66E2CC;
+  --green-200: #9FF0E0;
+  --green-100: #CFF8EE;
+  --green-50: #F1FCFA;
+
+  --red-950: #450A0A;
+  --red-900: #7F1D1E;
+  --red-800: #991B1C;
+  --red-700: #B81D1E;
+  --red-600: #DB2728;
+  --red-500: #EF4B4C;
+  --red-400: #F87172;
+  --red-300: #FCA5A6;
+  --red-200: #FECACA;
+  --red-100: #FEE2E2;
+  --red-50: #FEF2F2;
+
+  --orange-950: #421708;
+  --orange-900: #7A3214;
+  --orange-800: #973A15;
+  --orange-700: #BE4A10;
+  --orange-600: #E56211;
+  --orange-500: #F5862B;
+  --orange-400: #F79940;
+  --orange-300: #FABF77;
+  --orange-200: #FCDAAC;
+  --orange-100: #FEEFD6;
+  --orange-50: #FFF8ED;
+
+  --yellow-950: #481E00;
+  --yellow-900: #7C3C0B;
+  --yellow-800: #984908;
+  --yellow-700: #B85C01;
+  --yellow-600: #E28800;
+  --yellow-500: #F5AB00;
+  --yellow-400: #FFD31B;
+  --yellow-300: #FFE446;
+  --yellow-200: #FFF285;
+  --yellow-100: #FFF8C5;
+  --yellow-50: #FFFDEA;
+
+  --pink-950: #500724;
+  --pink-900: #831843;
+  --pink-800: #9d174d;
+  --pink-700: #be185d;
+  --pink-600: #db2777;
+  --pink-500: #ec4899;
+  --pink-400: #f472b6;
+  --pink-300: #f9a8d4;
+  --pink-200: #fbcfe8;
+  --pink-100: #fce7f3;
+  --pink-50:  #fdf2f8;
+
+  /* Primary color defaults — mirrors [data-accent="blue"] so :root is always resolved */
+  --primary-950: var(--blue-950);
+  --primary-900: var(--blue-900);
+  --primary-800: var(--blue-800);
+  --primary-700: var(--blue-700);
+  --primary-600: var(--blue-600);
+  --primary-500: var(--blue-500);
+  --primary-400: var(--blue-400);
+  --primary-300: var(--blue-300);
+  --primary-200: var(--blue-200);
+  --primary-100: var(--blue-100);
+  --primary-50: var(--blue-50);
+
+  /* Colors -- Alias */
+  --black: var(--gray-1000);
+  --almost-black: var(--gray-950);
+  --extra-dark: var(--gray-900);
+  --dark: var(--gray-700);
+  --medium: var(--gray-500);
+  --light: var(--gray-300);
+  --extra-light: var(--gray-100);
+  --almost-white: var(--gray-50);
+  --white: var(--gray-0);
+
+  --information-950: var(--blue-950);
+  --information-900: var(--blue-900);
+  --information-800: var(--blue-800);
+  --information-700: var(--blue-700);
+  --information-600: var(--blue-600);
+  --information-500: var(--blue-500);
+  --information-400: var(--blue-400);
+  --information-300: var(--blue-300);
+  --information-200: var(--blue-200);
+  --information-100: var(--blue-100);
+  --information-50: var(--blue-50);
+
+  --success-950: var(--green-950);
+  --success-900: var(--green-900);
+  --success-800: var(--green-800);
+  --success-700: var(--green-700);
+  --success-600: var(--green-600);
+  --success-500: var(--green-500);
+  --success-400: var(--green-400);
+  --success-300: var(--green-300);
+  --success-200: var(--green-200);
+  --success-100: var(--green-100);
+  --success-50: var(--green-50);
+
+  --warning-950: var(--orange-950);
+  --warning-900: var(--orange-900);
+  --warning-800: var(--orange-800);
+  --warning-700: var(--orange-700);
+  --warning-600: var(--orange-600);
+  --warning-500: var(--orange-500);
+  --warning-400: var(--orange-400);
+  --warning-300: var(--orange-300);
+  --warning-200: var(--orange-200);
+  --warning-100: var(--orange-100);
+  --warning-50: var(--orange-50);
+
+  --error-950: var(--red-950);
+  --error-900: var(--red-900);
+  --error-800: var(--red-800);
+  --error-700: var(--red-700);
+  --error-600: var(--red-600);
+  --error-500: var(--red-500);
+  --error-400: var(--red-400);
+  --error-300: var(--red-300);
+  --error-200: var(--red-200);
+  --error-100: var(--red-100);
+  --error-50: var(--red-50);
+
+  /* Colors -- Semantic */
+  --surface-page: var(--white);
+  --surface-primary: var(--almost-white);
+  --surface-hover: var(--gray-75);
+  --surface-information: var(--information-50);
+  --surface-success: var(--success-50);
+  --surface-warning: var(--warning-50);
+  --surface-error: var(--error-50);
+  --surface-action: var(--primary-500);
+  --surface-action-hover: var(--primary-600);
+  --surface-disabled: var(--gray-200);
+  --surface-hint: var(--primary-200);
+
+  --border-primary: var(--gray-200);
+  --border-information: var(--information-100);
+  --border-success: var(--success-100);
+  --border-warning: var(--warning-100);
+  --border-error: var(--error-100);
+  --border-action: var(--primary-500);
+  --border-action-hover: var(--primary-600);
+  --handrail-default: var(--border-primary);
+  --handrail-active: var(--border-action);
+
+  --link-default: var(--primary-700);
+  --link-hover: var(--primary-800);
+
+  --text-body: var(--extra-dark);
+  --text-subtle: var(--gray-750);
+  --text-disabled: var(--gray-400);
+  --text-keyword: var(--primary-700);
+  --text-hilite-bg: var(--primary-200);
+  --text-action: var(--primary-600);
+  --text-action-hover: var(--primary-600);
+  --text-error: var(--error-500);
+
+  --icon-success: var(--success-500);
+  --icon-information: var(--information-500);
+  --icon-warning: var(--warning-500);
+  --icon-error: var(--error-500);
+  --icon-action: var(--information-600);
+
+  /* Type */
+  --body-line-height: 1.5;
+  --header-line-height: 1.25;
+  --h1-size: 2.000rem;
+  --h2-size: 1.750rem;
+  --h3-size: 1.500rem;
+  --h4-size: 1.375rem;
+  --h5-size: 1.250rem;
+  --h6-size: 1.000rem;
+  --font-size: 100%;
+  --weight-bold: 700;
+  --weight-semi: 600;
+  --weight-medium: 500;
+  --weight-regular: 400;
+  --weight-light: 300;
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+  --font-mono: 'Source Code Pro', monospace;
+
+  /* Borders */
+  --border-thick: 6px;
+  --border-med: 4px;
+  --border-thin: 2px;
+  --border-extrathin: 1px;
+
+  /* Shadows */
+  --shadow-strong: 0px 1px 2px rgba(0, 0, 0, 30%);
+  --shadow-soft: 0px 2px 6px rgba(0, 0, 0, 15%);
+
+  /* Transitions */
+  --transition-duration: 0.3s;
+  --transition-bg-color: background-color 0.1s ease;
+  --transition-bd-color: border-color 0.1s ease;
+
+}
+
+[data-accent="blue"] {
+  --primary-950: var(--blue-950);
+  --primary-900: var(--blue-900);
+  --primary-800: var(--blue-800);
+  --primary-700: var(--blue-700);
+  --primary-600: var(--blue-600);
+  --primary-500: var(--blue-500);
+  --primary-400: var(--blue-400);
+  --primary-300: var(--blue-300);
+  --primary-200: var(--blue-200);
+  --primary-100: var(--blue-100);
+  --primary-50: var(--blue-50);
+}
+
+[data-accent="purple"] {
+  --primary-950: var(--purple-950);
+  --primary-900: var(--purple-900);
+  --primary-800: var(--purple-800);
+  --primary-700: var(--purple-700);
+  --primary-600: var(--purple-600);
+  --primary-500: var(--purple-500);
+  --primary-400: var(--purple-400);
+  --primary-300: var(--purple-300);
+  --primary-200: var(--purple-200);
+  --primary-100: var(--purple-100);
+  --primary-50: var(--purple-50);
+}
+
+[data-accent="red"] {
+  --primary-950: var(--red-950);
+  --primary-900: var(--red-900);
+  --primary-800: var(--red-800);
+  --primary-700: var(--red-700);
+  --primary-600: var(--red-600);
+  --primary-500: var(--red-500);
+  --primary-400: var(--red-400);
+  --primary-300: var(--red-300);
+  --primary-200: var(--red-200);
+  --primary-100: var(--red-100);
+  --primary-50: var(--red-50);
+}
+
+[data-accent="green"] {
+  --primary-950: var(--green-950);
+  --primary-900: var(--green-900);
+  --primary-800: var(--green-800);
+  --primary-700: var(--green-700);
+  --primary-600: var(--green-600);
+  --primary-500: var(--green-500);
+  --primary-400: var(--green-400);
+  --primary-300: var(--green-300);
+  --primary-200: var(--green-200);
+  --primary-100: var(--green-100);
+  --primary-50: var(--green-50);
+}
+
+[data-accent="yellow"] {
+  --primary-950: var(--yellow-950);
+  --primary-900: var(--yellow-900);
+  --primary-800: var(--yellow-800);
+  --primary-700: var(--yellow-700);
+  --primary-600: var(--yellow-600);
+  --primary-500: var(--yellow-500);
+  --primary-400: var(--yellow-400);
+  --primary-300: var(--yellow-300);
+  --primary-200: var(--yellow-200);
+  --primary-100: var(--yellow-100);
+  --primary-50: var(--yellow-50);
+}
+
+[data-accent="orange"] {
+  --primary-950: var(--orange-950);
+  --primary-900: var(--orange-900);
+  --primary-800: var(--orange-800);
+  --primary-700: var(--orange-700);
+  --primary-600: var(--orange-600);
+  --primary-500: var(--orange-500);
+  --primary-400: var(--orange-400);
+  --primary-300: var(--orange-300);
+  --primary-200: var(--orange-200);
+  --primary-100: var(--orange-100);
+  --primary-50: var(--orange-50);
+}
+
+[data-accent="pink"] {
+  --primary-950: var(--pink-950);
+  --primary-900: var(--pink-900);
+  --primary-800: var(--pink-800);
+  --primary-700: var(--pink-700);
+  --primary-600: var(--pink-600);
+  --primary-500: var(--pink-500);
+  --primary-400: var(--pink-400);
+  --primary-300: var(--pink-300);
+  --primary-200: var(--pink-200);
+  --primary-100: var(--pink-100);
+  --primary-50: var(--pink-50);
+}
+
+[data-accent="gray"] {
+  --primary-950: var(--gray-950);
+  --primary-900: var(--gray-900);
+  --primary-800: var(--gray-800);
+  --primary-700: var(--gray-700);
+  --primary-600: var(--gray-600);
+  --primary-500: var(--gray-500);
+  --primary-400: var(--gray-400);
+  --primary-300: var(--gray-300);
+  --primary-200: var(--gray-200);
+  --primary-100: var(--gray-100);
+  --primary-50: var(--gray-50);
+}
+
+/* Typography */
+[data-typography="serif"] {
+  --font-heading: 'Source Serif 4', serif;
+  --font-body: 'Source Serif 4', serif;
+}
+
+/* Reader type controls: the rail's Reading scope sets these data-* attributes
+   on :root, overriding the variables the content already consumes. Default
+   values (size 2, normal leading, normal width) carry no attribute. Widths are
+   capped so the widest never collides with the rail in the gutter. */
+:root[data-reading-typeface="serif"] {
+  --font-heading: 'Source Serif 4', serif;
+  --font-body: 'Source Serif 4', serif;
+}
+:root[data-reading-typeface="legible"] {
+  --font-heading: 'Atkinson Hyperlegible', 'Source Sans 3', sans-serif;
+  --font-body: 'Atkinson Hyperlegible', 'Source Sans 3', sans-serif;
+}
+:root[data-reading-size="1"] { --font-size: 90%; }
+:root[data-reading-size="3"] { --font-size: 112%; }
+:root[data-reading-size="4"] { --font-size: 125%; }
+:root[data-reading-leading="tight"] { --body-line-height: 1.3; }
+:root[data-reading-leading="loose"] { --body-line-height: 1.85; }
+:root { --content-max-width: 54rem; }  /* default body measure; presets below override */
+:root[data-reading-measure="narrow"] { --content-max-width: 52rem; }
+:root[data-reading-measure="wide"] { --content-max-width: 68rem; }
+
+
+.dark-theme {
+  /* Inverted from light mode */
+  --gray-0: #13181B;
+  --gray-50: #1C242A;
+  --gray-75: #232D35;
+  --gray-100: #2A3740;
+  --gray-200: #38454F;
+  --gray-300: #475662;
+  --gray-400: #566877;
+  --gray-500: #67798A;
+  --gray-550: #788188;
+  --gray-600: #7A8A99;
+  --gray-700: #8C9BA8;
+  --gray-800: #A0ACB7;
+  --gray-900: #B5BFC8;
+  --gray-950: #CED6DC;
+  --gray-1000: #E8EDF0;
+
+  --blue-50: #082C49;
+  --blue-100: #0A375A;
+  --blue-200: #0D446D;
+  --blue-300: #0F5586;
+  --blue-400: #1266A0;
+  --blue-500: #1577BA;
+  --blue-600: #1A8CD4;
+  --blue-700: #2BA1EA;
+  --blue-800: #55B5F1;
+  --blue-900: #84CAF7;
+  --blue-950: #C2E3FD;
+
+  --purple-50: #2A0D46;
+  --purple-100: #341358;
+  --purple-200: #411A6C;
+  --purple-300: #4D2181;
+  --purple-400: #5A2997;
+  --purple-500: #6831AD;
+  --purple-600: #7A3BC7;
+  --purple-700: #A068E0;
+  --purple-800: #A77CE4;
+  --purple-900: #C5A5EF;
+  --purple-950: #E2D2F9;
+
+  --green-50: #072C2B;
+  --green-100: #0B3937;
+  --green-200: #0F4643;
+  --green-300: #135452;
+  --green-400: #176260;
+  --green-500: #1B706E;
+  --green-600: #20847F;
+  --green-700: #279D96;
+  --green-800: #37B6AC;
+  --green-900: #5DCFC5;
+  --green-950: #A0E8DD;
+
+  --red-50: #450A0A;
+  --red-100: #55110F;
+  --red-200: #671715;
+  --red-300: #7A1E1B;
+  --red-400: #8E2522;
+  --red-500: #A32E29;
+  --red-600: #B73932;
+  --red-700: #D85851;
+  --red-800: #DB6C64;
+  --red-900: #EB9791;
+  --red-950: #F7C5C1;
+
+  --orange-50: #421708;
+  --orange-100: #51200D;
+  --orange-200: #632913;
+  --orange-300: #753218;
+  --orange-400: #873C1E;
+  --orange-500: #9A4724;
+  --orange-600: #B5562B;
+  --orange-700: #D06A37;
+  --orange-800: #E58753;
+  --orange-900: #F2B285;
+  --orange-950: #FAD7B9;
+
+  --yellow-50: #481E00;
+  --yellow-100: #5A2800;
+  --yellow-200: #6F3300;
+  --yellow-300: #853F00;
+  --yellow-400: #9C4B00;
+  --yellow-500: #B45700;
+  --yellow-600: #D06800;
+  --yellow-700: #ED8100;
+  --yellow-800: #FFA01A;
+  --yellow-900: #FFC04F;
+  --yellow-950: #FFD98A;
+
+  --pink-50: #500724;
+  --pink-100: #630E2F;
+  --pink-200: #77143B;
+  --pink-300: #8C1B47;
+  --pink-400: #A12154;
+  --pink-500: #B72861;
+  --pink-600: #D13273;
+  --pink-700: #E5488D;
+  --pink-800: #F26DAE;
+  --pink-900: #FA9FCD;
+  --pink-950: #FCC9E3;
+
+  --surface-page: var(--gray-0);
+  --surface-primary: var(--gray-50);
+  --surface-hover: var(--gray-100);
+  --surface-information: var(--information-100);
+  --surface-success: var(--success-100);
+  --surface-error: var(--error-100);
+  --surface-action: var(--primary-600);
+  --surface-action-hover: var(--primary-500);
+  --surface-disabled: var(--gray-300);
+  --surface-hint: var(--primary-100);
+
+  --border-primary: var(--gray-300);
+  --border-information: var(--information-300);
+  --border-success: var(--success-300);
+  --border-warning: var(--warning-300);
+  --border-error: var(--error-300);
+  --border-action: var(--primary-500);
+  --border-action-hover: var(--primary-400);
+  --handrail-default: var(--border-primary);
+  --handrail-active: var(--border-action);
+
+  --link-default: var(--primary-700);
+  --link-hover: var(--primary-800);
+
+  --text-body: var(--gray-950);
+  --text-subtle: var(--gray-550);
+  --text-disabled: var(--gray-600);
+  --text-keyword: var(--primary-600);
+  --text-hilite-bg: var(--primary-300);
+  --text-action: var(--primary-500);
+  --text-action-hover: var(--primary-400);
+  --text-error: var(--error-500);
+
+  --icon-information: var(--information-500);
+  --icon-error: var(--error-500);
+  --icon-action: var(--primary-500);
+}
+
+/* Respect system dark mode preference (unless .light-theme class overrides) */
+
+
+/* CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+
+/* General utilities */
+.manuscriptwrapper {
+  .error {background-color: var(--error-100);}
+  .node-with-no-class {background-color: var(--error-100);}
+  .reference.unknown {background-color: var(--error-100);}
+  .hide {display: none !important;}
+}
+
+
+/* Outermost wrapper */
+.manuscriptwrapper {
+
+  /* Default */
+  border-radius: var(--radius-lg);
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0 var(--side-padding) 0 var(--side-padding);
+  font-family: var(--font-body);
+  font-size: var(--font-size);
+  font-weight: var(--weight-regular);
+  line-height: var(--body-line-height);
+  background: var(--surface-page);
+  color: var(--extra-dark);
+  transition: background 0.3s ease, color 0.3s ease;
+
+  /* Outermost wrapper when the viewport is narrow */
+  &.wrapper-narrow {
+    margin: 2.5em 15em 2.5em auto;
+  }
+
+  /* Outermost wrapper when the the manuscript is embedded in another page */
+  &.embedded {
+    margin: 0;
+    padding-inline: 1.5rem;
+    box-shadow: unset;
+    border-radius: var(--radius-none);
+  }
+
+}
+
+
+/* Widths */
+.manuscriptwrapper {
+  width: 100%;
+  max-width: var(--content-max-width, var(--chunk-20));
+
+  & > .manuscript {
+    width: 100%;
+  }
+
+  & > .manuscript section {
+    width: 100%;
+  }
+
+  & > .manuscript section .hr {
+    width: 100%;
+  }
+
+  /*
+   * Nesting Depth Limits
+   *
+   * BRAIID supports up to 3 levels of nesting (depths 0-3). Deeper nesting
+   * becomes unreadable and indicates the document needs restructuring.
+   *
+   * - Depth 0: Direct child of section (96px offset = 1× hr-total-offset)
+   * - Depth 1: Nested once (192px = 2× hr-total-offset)
+   * - Depth 2: Nested twice (288px = 3× hr-total-offset)
+   * - Depth 3: Nested thrice (384px = 4× hr-total-offset) - MAXIMUM
+   *
+   * Content nested beyond depth 3 will trigger a linter warning suggesting
+   * refactoring (e.g., extract nested content to a new section/theorem).
+   */
+
+  /* Depth 0: direct child of section */
+  & > .manuscript section .hr .hr-content-zone {
+    width: calc(100% - var(--hr-total-offset));
+  }
+
+  /* Depth 1: nested one level */
+  & > .manuscript section .hr .hr .hr-content-zone {
+    width: calc(100% - calc(var(--hr-total-offset) * 2));
+  }
+
+  /* Depth 2: nested two levels */
+  & > .manuscript section .hr .hr .hr .hr-content-zone {
+    width: calc(100% - calc(var(--hr-total-offset) * 3));
+  }
+
+  /* Depth 3: nested three levels (MAXIMUM) */
+  & > .manuscript section .hr .hr .hr .hr .hr-content-zone {
+    width: calc(100% - calc(var(--hr-total-offset) * 4));
+  }
+
+}
+
+
+
+/* Tooltipster styles */
+.tooltipster-sidetip.tooltipster-shadow.tooltipster-shadow-rsm {
+
+  .tooltipster-box {
+    background: var(--surface-page);
+    border-radius: var(--radius-xl);
+    border: var(--border-thin) solid var(--border-primary);
+  }
+
+  .tooltipster-arrow-border {
+    border-top-color: var(--border-primary);
+    border-bottom-color: var(--border-primary);
+  }
+
+  .tooltipster-arrow-background {
+    border-top-color: var(--surface-page);
+    border-bottom-color: var(--surface-page);
+  }
+
+  .tooltipster-content {
+    background: var(--surface-page);
+    color: var(--extra-dark);
+    border-radius: var(--radius-xl);
+
+    .manuscriptwrapper {
+      /* Neutralise the document-layout rules: inside a tooltip the wrapper must
+         fit the (maxWidth-capped) box, not the document column. Without this it
+         keeps the sidebar-clearance margin (margin-inline-start, applied to the
+         document column to clear the fixed rail) and max-width:960px, which shove
+         the cloned block sideways and overflow the box. !important on both the
+         physical and logical margin: that push wins the cascade otherwise. */
+      margin: 0 !important;
+      margin-inline: 0 !important;
+      width: auto;
+      max-width: 100%;
+      padding: 0 1rem 0 1rem;
+    }
+
+    /* Short plain-text control labels (rail tabs/buttons): body font, tooltip
+       size, wrapped by the instance maxWidth. Not document content, so no
+       .manuscriptwrapper (which would size to the document column width). */
+    .rail-tip {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      line-height: 1.35;
+      padding: 0.35rem 0.6rem;
+    }
+
+  }
+
+}
+
+
+/* Back pill: a transient affordance over the native browser Back button
+   (onload.js shows it after an in-document jump). Reading-first, so it stays out
+   of the way: a small floating pill, bottom-centre, that fades in on a jump and
+   out again on Back or when the reader scrolls away. */
+.rsm-back-pill {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  z-index: 9998;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1;
+  color: var(--surface-page);
+  background: var(--extra-dark);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(0.5rem);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
+}
+
+.rsm-back-pill.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s;
+}
+
+.rsm-back-pill:hover { background: var(--primary-600); }
+.rsm-back-pill:focus-visible { outline: 2px solid var(--primary-600); outline-offset: 2px; }
+.rsm-back-pill-arrow { font-size: 1.05em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rsm-back-pill,
+  .rsm-back-pill.is-visible {
+    transform: translateX(-50%);
+    transition: opacity 0.001s, visibility 0s;
+  }
+}
+
+
+/* "Share this view": a quiet rail-footer action (potf-44f). Shown only in the
+   Document and Proof scopes (where the reader builds the structural view worth
+   sharing: notation/folds and reorder); hidden in Reading and Pinned. Styled as
+   a calm secondary control, not a call to action. */
+.proof-rail .rail-footer { display: none; }
+.proof-rail.scope-document .rail-footer,
+.proof-rail.scope-proof .rail-footer {
+  display: block;
+  margin-top: var(--chunk-sixth);
+  padding-top: var(--chunk-sixth);
+  border-top: var(--border-extrathin) solid var(--border-primary);
+}
+.proof-rail .rail-share-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: var(--weight-semi);
+  color: var(--text-action);
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.proof-rail .rail-share-view svg { width: 1.05em; height: 1.05em; }
+.proof-rail .rail-share-view:hover,
+.proof-rail .rail-share-view:focus-visible { background: var(--primary-100); }
+
+/* Shared-view pill: shown only when a ?view= link was opened (potf-44f). Same
+   calm bottom-centre language as the back pill; it names the provenance and
+   offers a one-click return to the pristine paper. Appended to <body>, so
+   top-level (outside .manuscriptwrapper). */
+.rsm-shared-pill {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  z-index: 9998;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1;
+  color: var(--surface-page);
+  background: var(--extra-dark);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  transform: translateX(-50%);
+}
+.rsm-shared-pill-label { font-weight: var(--weight-semi); }
+.rsm-shared-pill-reset {
+  font: inherit;
+  font-weight: var(--weight-semi);
+  color: var(--extra-dark);
+  background: var(--surface-page);
+  border: none;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+}
+.rsm-shared-pill-reset:hover,
+.rsm-shared-pill-reset:focus-visible { background: var(--primary-100); }
+.rsm-shared-pill-x {
+  font: inherit;
+  font-size: 1.1em;
+  line-height: 1;
+  color: var(--surface-page);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0.15rem;
+}
+
+/* Active dependency-lens affordance: a fixed pill, bottom-centre, that stays
+   visible wherever the reader has scrolled (the rail-side cone can be far
+   off-screen). It names the active lens, shows the counts, offers the other
+   direction so the reader can compose, and makes the exit and the Esc shortcut
+   explicit. The leading dot reads as a live "on" indicator. Top-level (not
+   nested under .manuscriptwrapper) because deplens.js portals the pill to
+   <body>, outside the wrapper, so fixed positioning is viewport-relative. */
+.deplens-bar {
+  position: fixed;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  max-width: min(92vw, 660px);
+  padding: 0.5rem 0.65rem 0.5rem 0.85rem;
+  /* Portaled to <body>, outside .manuscriptwrapper, so the brand font is not
+     inherited (same fix as the singleton menu on body): set it explicitly. */
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.2;
+  color: var(--text-body);
+  background: var(--surface-primary);
+  border: var(--border-thin) solid var(--primary-600);
+  border-radius: 999px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16);
+}
+.deplens-bar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: var(--weight-semi);
+  color: var(--primary-700);
+  white-space: nowrap;
+}
+.deplens-bar-badge::before {
+  content: "";
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: var(--primary-600);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+.deplens-bar-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.deplens-bar .deplens-add,
+.deplens-bar .deplens-exit {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-weight: var(--weight-semi);
+}
+.deplens-bar .deplens-add { color: var(--text-action); }
+.deplens-bar .deplens-add:hover,
+.deplens-bar .deplens-add:focus-visible { background: var(--primary-100); }
+.deplens-bar .deplens-exit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--almost-white);
+  background: var(--primary-600);
+}
+.deplens-bar .deplens-exit:hover,
+.deplens-bar .deplens-exit:focus-visible { background: var(--primary-700); }
+.deplens-bar .deplens-exit-x { font-size: 1.1em; line-height: 1; }
+.deplens-kbd {
+  font: inherit;
+  font-size: 0.72em;
+  font-weight: var(--weight-semi);
+  padding: 0.05em 0.4em;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+
+/* Calculational proof (:calc:): the chain reads as one vertical sequence. Its
+   relation steps keep the full .hr structure -- so their content lays out and
+   aligns -- but render NONE of their own handrail chrome except the disclosure
+   control: the native collapse, rendered in the info-zone (the right-margin
+   per-row slot) and reglyphed as the math "because" sign. Collapsed shows the
+   relation, open reveals its :p: justification. No left rule, dots, menu,
+   spacer, or number. Presentation only; the handrail system is untouched. */
+.manuscriptwrapper .calc .step {
+  margin-block: 0;
+}
+.manuscriptwrapper .calc .statement,
+.manuscriptwrapper .calc .statement p {
+  margin-block: 0;
+}
+.manuscriptwrapper .calc .step .hr-menu-zone,
+.manuscriptwrapper .calc .step .hr-border-zone,
+.manuscriptwrapper .calc .step .hr-spacer-zone {
+  display: none;
+}
+/* The disclosure control lives in the info-zone (below); the left-gutter slot and
+   the nested relation/justification collapse zones carry nothing. */
+.manuscriptwrapper .calc .step > .hr-collapse-zone,
+.manuscriptwrapper .calc .step .statement .hr-collapse-zone,
+.manuscriptwrapper .calc .step .subproof .hr-collapse-zone {
+  display: none;
+}
+/* The justification toggle sits in the info-zone -- the right-margin, per-row
+   slot where an equation number would go (translator: _hr_info_zone_disclosure).
+   Reglyph the control as the because-sign (U+2235; no Tabler icon exists): quiet
+   gray at rest -- it reads "a reason exists", not a toggle -- lifting on row
+   hover/focus, and solid primary when its proof is open. */
+.manuscriptwrapper .calc .step > .hr-info-zone .icon {
+  display: none;
+}
+/* A PARENT step's info-zone (.hr-info, z-index:1) paints over this row's control
+   -- the calc sits inside the parent's content-zone -- swallowing clicks/hover.
+   Lift this info-zone above it, and make the control a solid, top-most hit target
+   aligned to the relation (cancelling the base top: chunk-sixth nudge). */
+.manuscriptwrapper .calc .step > .hr-info-zone {
+  z-index: 5;
+}
+.manuscriptwrapper .calc .step > .hr-info-zone .hr-collapse {
+  position: relative;
+  z-index: 1;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--chunk-half);
+  min-height: var(--chunk-half);
+  opacity: 1;
+  cursor: pointer;
+}
+.manuscriptwrapper .calc .step > .hr-info-zone .hr-collapse::before {
+  content: "";
+  display: block;
+  width: calc(var(--chunk-third) * 1.1);
+  height: calc(var(--chunk-third) * 1.1);
+  /* --dark, not --medium: the rest-state sign was ~2.05; --dark clears WCAG
+     non-text (3:1) and 1.4.3 (4.5:1) while staying a quiet gray before hover. */
+  background-color: var(--dark);
+  transition: background-color 0.12s ease;
+  /* the because-sign (two dots over one) as an SVG mask, so background-color
+     still themes it (gray at rest, primary on hover/open). */
+  --calc-because: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='8' cy='9' r='2.3'/%3E%3Ccircle cx='16' cy='9' r='2.3'/%3E%3Ccircle cx='12' cy='16' r='2.3'/%3E%3C/svg%3E");
+  -webkit-mask: var(--calc-because) center / contain no-repeat;
+  mask: var(--calc-because) center / contain no-repeat;
+}
+.manuscriptwrapper .calc .step:hover > .hr-info-zone .hr-collapse::before,
+.manuscriptwrapper .calc .step:focus-within > .hr-info-zone .hr-collapse::before {
+  background-color: var(--primary-700);
+}
+.manuscriptwrapper .calc .step:not(.hr-collapsed) > .hr-info-zone .hr-collapse::before {
+  background-color: var(--primary-600);
+}
+/* Touch: give the because-mark a >=44px tap target. */
+@media (hover: none) and (pointer: coarse) {
+  .manuscriptwrapper .calc .step > .hr-info-zone .hr-collapse::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .manuscriptwrapper .calc .step > .hr-info-zone .hr-collapse::before {
+    transition: none;
+  }
+}
+.manuscriptwrapper .calc .step.hr-collapsed > .hr-content-zone::after {
+  content: none !important;
+}
+
+
+/* Headings */
+.manuscriptwrapper {
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-heading);
+    line-height: var(--header-line-height);
+  }
+
+  h1 {
+    font-size: var(--h1-size);
+    font-weight: var(--weight-bold);
+  }
+
+  h2 {
+    font-size: var(--h2-size);
+    font-weight: var(--weight-semi);
+  }
+
+  h3 {
+    font-size: var(--h3-size);
+    font-weight: var(--weight-medium);
+  }
+
+  h4 {
+    font-size: var(--h4-size);
+    font-weight: var(--weight-medium);
+  }
+
+  h5 {
+    font-size: var(--h5-size);
+    font-weight: var(--weight-regular);
+  }
+
+  /* Margins around the heading but still inside the handrail */
+  h1 {margin: calc(var(--h1-size) * 0.75) 0;}
+  h2 {margin: calc(var(--h2-size) * 0.75) 0;}
+  h3 {margin: calc(var(--h3-size) * 0.75) 0;}
+  h4 {margin: calc(var(--h4-size) * 0.75) 0;}
+  h5 {margin: calc(var(--h5-size) * 0.75) 0;}
+
+  /* Margins around sections (before headings and after the last paragraph) */
+  section {
+    &.level-1 {margin-block: calc(var(--h1-size) * 1.5);}
+    &.level-2 {margin-block: calc(var(--h2-size) * 1.5);}
+    &.level-3 {margin-block: calc(var(--h3-size) * 1.5);}
+    &.level-4 {margin-block: calc(var(--h4-size) * 1.5);}
+    &.level-5 {margin-block: calc(var(--h5-size) * 1.5);}
+  }
+
+  /* Margins around sections in embedded mode */
+  &.embedded section {
+    &.level-1 {margin-block: calc(var(--h1-size) * 0.75);}
+    &.level-2 {margin-block: calc(var(--h2-size) * 0.75);}
+    &.level-3 {margin-block: calc(var(--h3-size) * 0.75);}
+    &.level-4 {margin-block: calc(var(--h4-size) * 0.75);}
+    &.level-5 {margin-block: calc(var(--h5-size) * 0.75);}
+  }
+
+  /* Margins between the heading and the first paragraph */
+  .hr.heading {margin-bottom: var(--chunk-third);}
+
+  /* Front-matter headings (abstract, table of contents) are emitted at semantic
+   level 2 so the document outline never skips from the h1 title to an h3
+   (WCAG 1.3.1 heading-order). But they are front matter, not numbered content
+   sections, so they read as a quiet uppercase eyebrow label rather than as a
+   section head: that distinguishes them from the h2 section heads and avoids
+   colliding with the h3 subsection heads. Sized at h5 (not the body-sized h6) so
+   the short label still has presence in the full-width handrail row. Semantic
+   level and visual size are deliberately decoupled. (letter-spacing has no token
+   in braiid; the em value follows the existing label convention.) */
+  /* The heading row is a flex container, so its content-zone (the highlight box)
+   stretches to the height of the taller control gutter. Center the short eyebrow
+   label in that box so the highlight has equal space above and below it. */
+  .abstract > .heading.hr > .hr-content-zone,
+  .toc > .heading.hr > .hr-content-zone {
+    display: flex;
+    align-items: center;
+  }
+  .abstract > .heading.hr > .hr-content-zone > h2,
+  .toc > .heading.hr > .hr-content-zone > h2 {
+    font-size: calc(var(--h6-size) * 0.8);
+    font-weight: var(--weight-semi);
+    color: var(--text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+
+  /* Margins between most elements */
+  .hr {margin-block-end: 1em;}
+  .hr.mathblock, .hr.codeblock {margin-block-end: 0em;}
+  .hr > .hr-content-zone > ol.enumerate,
+  .hr > .hr-content-zone > ul.itemize {
+    margin-block-end: 0;
+    padding-inline-start: 1.5em;
+  }
+  .proof .hr.statement, .proof .hr.paragraph {margin-block-end: 0.5em;}
+
+  /* MathJax's runtime CSS provides `margin: 1em 0` on mjx-container[display="true"].
+   Temml's native <math display="block"> has no equivalent, so we set it explicitly
+   so both renderers produce the same internal block spacing. */
+  .mathblock math[display="block"] {
+    margin-block: 1em;
+  }
+
+  /* The last equation in a block carries its own bottom margin; suppress it so
+   it doesn't double up with the following element's spacing. Targets both
+   temml's native <math display="block"> and MathJax's mjx-container as fallback. */
+  .mathblock:is(:last-child) math[display="block"],
+  .mathblock:is(:last-child) mjx-container[jax="CHTML"][display="true"] {
+    margin-block-end: 0;
+  }
+
+}
+
+
+/* Handrails: main flexbox */
+.manuscriptwrapper {
+  .hr {
+    display: flex;
+
+    .hr-collapse-zone {flex-shrink: 0;}
+    .hr-menu-zone {position: absolute; display: none;}
+    .hr-border-zone {flex-shrink: 0;}
+    .hr-spacer-zone {flex-shrink: 0;}
+    .hr-content-zone {flex-shrink: 1; flex-grow: 1; flex-basis: 0;}
+    .hr-info-zone {padding: var(--chunk-sixth); flex-shrink: 0;}
+
+    &.hr-offset {position: relative;}
+    &.hr-offset > .hr-collapse-zone {position: absolute; left: calc(-3 * var(--hr-zone-width));}
+    &.hr-offset > .hr-menu-zone {position: absolute; left: calc(-2 * var(--hr-zone-width));}
+    &.hr-offset > .hr-border-zone {position: absolute; left: calc(-2 * var(--hr-zone-width));}
+    &.hr-offset > .hr-spacer-zone {position: absolute; left: calc(-1 * var(--hr-zone-width));}
+    &.hr-offset > .hr-info-zone {position: absolute; left: 100%;}
+
+  }
+}
+
+/* With .subproof boxes pinned flush to the content column (see .hr-shift-1),
+   every step box shares the same right edge, so the base rule
+   `.hr-offset > .hr-info-zone { left: 100% }` lands every step number on one
+   column at any nesting depth. The number sits in the margin at the box's right
+   edge, so content never runs under it: no per-depth number offset and no
+   content-zone reservation are needed. */
+
+/* Handrails: individual elements -- collapse-zone */
+.manuscriptwrapper .hr .hr-collapse-zone {
+  .hr-collapse {
+    position: relative;
+    top: var(--chunk-sixth);
+    border-radius: var(--radius-lg);
+    opacity: 0%;
+
+    .icon {padding-top: var(--chunk-sixth); padding-bottom: var(--chunk-sixth);}
+
+  }
+}
+/* Handrails: individual elements -- border-zone */
+.manuscriptwrapper .hr .hr-border-zone {
+  .hr-border-dots {
+    position: relative;
+    top: var(--chunk-sixth);
+    border-radius: var(--radius-lg);
+    background: var(--surface-hover);
+    color: var(--gray-900);
+    z-index: 1;
+
+    .icon {padding-top: var(--chunk-sixth); padding-bottom: var(--chunk-sixth);}
+
+  }
+  .hr-border-rect {
+    position: relative;
+    top: calc(-2 * var(--hr-zone-width));
+    left: calc(var(--chunk-sixth) - var(--border-thin) / 2);
+    height: 100%;
+    min-height: var(--chunk-sixth);
+    border-left: var(--border-thin) solid var(--handrail-default);
+  }
+}
+.manuscriptwrapper .hr.heading {
+  .hr-border-rect {
+    left: calc(var(--chunk-sixth) - var(--border-med) / 2);
+    border-left: var(--border-med) solid var(--handrail-default);
+  }
+}
+.manuscriptwrapper .hr.step .hr.paragraph .hr-border-zone {
+  /* Put paragraphs' border zone last so if they are inside another element with a
+     handrail, the other element's border zone appears first.  This happens e.g. in
+     proof steps.
+   */
+  z-index: 0;
+}
+/* Handrails: individual elements -- menu-zone */
+.manuscriptwrapper .hr .hr-menu-zone {
+
+  .hr-menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--chunk-twelfth);
+    padding-block: var(--chunk-sixth);
+    background: var(--surface-page);
+    border: var(--border-extrathin) solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    width: calc(2.5 * var(--chunk));
+    box-shadow: var(--shadow-soft), var(--shadow-border);
+  }
+
+  .hr-menu-item, .hr-menu-label {
+    display: flex;
+    padding-inline: var(--chunk-quarter);
+    gap: var(--chunk-sixth);
+    align-items: center;
+
+    .hr-menu-item-text {
+      font-size: 0.875rem;
+    }
+  }
+
+  .hr-menu-label .hr-menu-item-text {
+    font-weight: var(--weight-semi);
+  }
+
+  .hr-menu-separator {
+    border-top: var(--border-extrathin) solid var(--light);
+    margin-block: var(--chunk-twelfth);
+    width: calc(100% - var(--chunk-half));
+    left: var(--chunk-quarter);
+    position: relative;
+  }
+
+}
+/* Handrails: individual elements -- spacer-zone */
+.manuscriptwrapper .hr .hr-spacer-zone, .manuscriptwrapper .hr .hr-collapse-zone {
+  .hr-spacer {
+    height: 0;
+    width: var(--chunk-third);
+  }
+}
+/* Handrails: individual elements -- content-zone */
+.manuscriptwrapper .hr .hr-content-zone {
+  & > p:first-child {
+    padding-top: var(--chunk-sixth);
+  }
+}
+/* Handrails: individual elements -- info-zone */
+.manuscriptwrapper .hr .hr-info-zone {
+  .hr-info {
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+
+    .eqn-number p, .step-number p {
+      font-size: 0.875rem;
+      color: var(--text-subtle);
+    }
+
+    &:has(.eqn-number), &:has(.step-number) {justify-content: flex-start;}
+
+    &:has(.eqn-number) {}
+
+  }
+
+  & .eqn-number, & .step-number {padding-bottom: var(--chunk-quarter);}
+
+}
+
+
+/* Handrail hover */
+.manuscriptwrapper .hr {
+  & > .hr-border-zone .hr-border-dots, & > .hr-collapse-zone .hr-collapse {opacity: 0%;}
+}
+.manuscriptwrapper .hr:hover {
+  & > .hr-border-zone .hr-border-dots, & > .hr-collapse-zone .hr-collapse {opacity: 100%;}
+}
+
+/* Touch has no hover, so the gutter controls would be invisible and unreachable.
+   Under a no-hover, coarse-pointer environment, give every block a single
+   control: drop the per-block collapse chevron (collapse/expand moves into the
+   dots menu) and reveal the menu-dots at rest. The dots carry a page-coloured
+   background so they BREAK the vertical rule instead of sitting on top of it,
+   and a >=44px invisible ::before is the tap target (the glyph stays small).
+   Desktop keeps the chevron and the hover reveal above. */
+@media (hover: none) and (pointer: coarse) {
+  .manuscriptwrapper .hr > .hr-collapse-zone .hr-collapse { display: none; }
+  /* Reveal the dots. At rest their background matches the page, so they break
+     the vertical rule (occlude it) without reading as a pill. The visible
+     rounded pill appears only while that block's menu is open. */
+  .manuscriptwrapper .hr > .hr-border-zone .hr-border-dots {
+    opacity: 1;
+    background: var(--surface-page);
+  }
+  .manuscriptwrapper .hr.hr-menu-open > .hr-border-zone .hr-border-dots {
+    background: var(--surface-hover);
+  }
+  .manuscriptwrapper .hr .hr-border-dots::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+  /* The dots sit near the left edge, so the menu opens to the RIGHT, flush to
+     the handrail, or it clips off-screen. Mirror the global --menu-right
+     override (which uses !important to beat the later base positioning rules). */
+  .manuscriptwrapper .hr .hr-menu-zone .hr-menu { left: 18px !important; }
+  .manuscriptwrapper .hr.hr-offset .hr-menu-zone .hr-menu { left: 18px !important; }
+}
+.manuscriptwrapper .hr.hr-hidden {
+  & > .hr-border-zone {opacity: 0%;}
+}
+.manuscriptwrapper .hr.hr-hidden:hover {
+  & > .hr-border-zone {opacity: 100%;}
+}
+/* Layout-only handrail for assets: reserves the content-zone gutter so the asset
+   aligns with the reading column, but shows no chrome at all, even on hover. The
+   empty zones carry no icons, so pin them to the standard zone width or the
+   content-zone would start a notch to the left of body prose. */
+.manuscriptwrapper .hr.hr-bare > .hr-border-zone { opacity: 0; }
+.manuscriptwrapper .hr.hr-bare > .hr-collapse-zone,
+.manuscriptwrapper .hr.hr-bare > .hr-border-zone,
+.manuscriptwrapper .hr.hr-bare > .hr-spacer-zone {
+  flex: 0 0 var(--hr-zone-width);
+}
+.manuscriptwrapper .step.hr:hover > .hr-info-zone p {
+  color: var(--extra-dark);
+  font-weight: var(--weight-semi);
+}
+.manuscriptwrapper .mathblock.hr:hover > .hr-info-zone p,
+.manuscriptwrapper .mathblock.hr:focus > .hr-info-zone p,
+.manuscriptwrapper .paragraph.hr:focus > .hr-content-zone > .mathblock > .hr-info-zone p {
+  color: var(--extra-dark);
+  font-weight: var(--weight-semi);
+}
+.manuscriptwrapper .mathblock > .hr-info-zone {
+  display: flex;
+  align-items: center;
+}
+.manuscriptwrapper .mathblock.hr-offset > .hr-info-zone {
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+
+/* Handrail active */
+/* Deliberately :focus, NOT :focus-visible. Clicking a block to highlight it is
+   an intended interaction here, so the highlight must show for mouse clicks as
+   well as keyboard focus. Keyboard focus is still always visible (WCAG 2.4.7 is
+   satisfied either way); do not "fix" this to :focus-visible. */
+.manuscriptwrapper .hr.active,
+.manuscriptwrapper:not([data-selecting]) .hr:focus {
+  /* reset the default behavior */
+  outline: none;
+
+  /* highlight EVERY nested handrail border */
+  .hr-border-zone {
+    .hr-border-dots {background: var(--primary-600); color: var(--almost-white);}
+    .hr-border-rect {border-left-color: var(--handrail-active);}
+  }
+  &.hr-collapsed > .hr-spacer-zone, &.hr-collapsed > .hr-border-zone > .hr-border-rect {
+    border-bottom-color: var(--handrail-active) !important;
+  }
+
+  /* highlight ONLY the current active handrail's collapse and dots */
+  & > .hr-border-zone > .hr-border-dots, & > .hr-collapse-zone > .hr-collapse {opacity: 100%}
+  &.hr-hidden > .hr-border-zone, &.hr-hidden > .hr-collapse-zone {opacity: 100%}
+
+  /* The active background is highlighted in zones but EXCEPT for collapse zone.
+   Additionally, in the border zone we only paint the inner rectangle (hr-border-rect),
+   otherwise the painted background would overflow the handrail border. */
+  /* & > .hr-collapse-zone, */
+  & > .hr-border-zone > .hr-border-rect,
+  & > .hr-spacer-zone,
+  & > .hr-content-zone,
+  & > .hr-info-zone {
+    background: var(--blue-100);
+  }
+
+  /* Most active areas include the info zone, except if the active area is a proof step statement */
+  .hr-info-zone {
+    border-top-right-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+  }
+
+  /* Colors when hovered */
+  .hr-border-zone .hr-border-dots:hover {
+    background: var(--primary-400);
+  }
+
+}
+
+
+/* Menu positioning and interaction. The in-zone z-index applies only for the
+   instant the menu sits in its handrail zone, before handrails.js measures it
+   and portals it to <body> (where the .hr-menu-portaled rules below take over). */
+.manuscriptwrapper .hr .hr-menu-zone .hr-menu {
+  position: relative;
+  left: calc(-2.5 * var(--chunk) + var(--hr-zone-width));
+  z-index: 1;
+}
+.manuscriptwrapper .hr.hr-offset .hr-menu-zone .hr-menu {
+  position: relative;
+  left: calc(-2.5 * var(--chunk));
+}
+
+/* The open menu is portaled to <body> (handrails.js) to escape ancestor stacking
+   contexts that otherwise paint it behind the fixed proof-rail (z-index 40). Once
+   on <body> it leaves .hr-menu-zone, so the zone-scoped appearance rules above no
+   longer reach it: re-state the box, position, and z-index here. The popup is
+   re-anchored with inline position:absolute + page-coordinate left/top from its
+   measured in-zone rect, so it scrolls with the page yet sits above the rail. */
+#hr-menu-singleton.hr-menu-portaled {
+  position: static;
+  /* On <body> the menu no longer inherits the manuscript's font-family, so it
+     falls back to the browser serif default. Restate the document typeface. */
+  font-family: var(--font-body);
+}
+#hr-menu-singleton.hr-menu-portaled .hr-menu {
+  /* above the fixed proof-rail (40); below the source modal (2000)/toast (2100) */
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--chunk-twelfth);
+  padding-block: var(--chunk-sixth);
+  background: var(--surface-page);
+  border: var(--border-extrathin) solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  width: calc(2.5 * var(--chunk));
+  box-shadow: var(--shadow-soft), var(--shadow-border);
+}
+/* The global icon-size rule (.manuscriptwrapper .icon svg) does not reach the
+   body-level portal, so re-state it here or the menu icons render at their
+   intrinsic (huge) size. */
+#hr-menu-singleton.hr-menu-portaled .icon svg {
+  width: var(--chunk-third);
+  height: var(--chunk-third);
+  display: block;
+}
+/* Item/label/separator layout and colors, mirroring the zone-scoped rules the
+   portal escapes (see the .hr-menu-zone blocks above and below). */
+#hr-menu-singleton.hr-menu-portaled .hr-menu-item,
+#hr-menu-singleton.hr-menu-portaled .hr-menu-label {
+  display: flex;
+  padding-inline: var(--chunk-quarter);
+  gap: var(--chunk-sixth);
+  align-items: center;
+}
+#hr-menu-singleton.hr-menu-portaled .hr-menu-item .hr-menu-item-text,
+#hr-menu-singleton.hr-menu-portaled .hr-menu-label .hr-menu-item-text {
+  font-size: 0.875rem;
+}
+#hr-menu-singleton.hr-menu-portaled .hr-menu-label .hr-menu-item-text {
+  font-weight: var(--weight-semi);
+}
+#hr-menu-singleton.hr-menu-portaled .hr-menu-separator {
+  border-top: var(--border-extrathin) solid var(--light);
+  margin-block: var(--chunk-twelfth);
+  width: calc(100% - var(--chunk-half));
+  left: var(--chunk-quarter);
+  position: relative;
+}
+/* The .manuscriptwrapper .icon svg sizing also stops reaching the portaled menu,
+   so its icons render at intrinsic (huge) size and balloon each row; re-state it.
+   Mirrors the "Icons" rule. */
+#hr-menu-singleton.hr-menu-portaled .icon svg {
+  width: var(--chunk-third);
+  height: var(--chunk-third);
+  display: block;
+}
+#hr-menu-singleton.hr-menu-portaled .hr-menu-item {
+  svg {stroke: var(--dark);}
+  .hr-menu-item-text {color: var(--gray-800);}
+
+  &.disabled {
+    svg {stroke: var(--medium);}
+    .hr-menu-item-text {color: var(--medium);}
+  }
+
+  &:hover:not(.disabled), &.active:not(.disabled) {
+    background: var(--surface-hint);
+    svg {stroke: var(--extra-dark);}
+    .hr-menu-item-text {color: var(--gray-900);}
+  }
+}
+.manuscriptwrapper .hr {
+  .hr-border-dots:hover, .hr-collapse:hover {background: var(--surface-hint);}
+  .hr-collapse:hover svg {stroke: var(--extra-dark);}
+  .hr-menu-item:hover, .hr-menu-item.active {background: var(--surface-hint);}
+}
+.manuscriptwrapper .hr-menu-zone .hr-menu-item {
+  svg {stroke: var(--dark);}
+  .hr-menu-item-text {color: var(--gray-800);}
+
+  &.disabled {
+    svg {stroke: var(--medium);}
+    .hr-menu-item-text{color: var(--medium);}
+  }
+
+  &:hover:not(.disabled), &.active:not(.disabled) {
+    svg {stroke: var(--extra-dark);}
+    .hr-menu-item-text{color: var(--gray-900);}
+  }
+
+}
+
+
+/* Labeled handrails */
+.manuscriptwrapper .hr.hr-labeled .hr-content-zone {
+  .hr-label {
+    padding-block: var(--chunk-sixth);
+    border-bottom: var(--border-extrathin) solid var(--border-primary);
+    margin-bottom: var(--chunk-sixth);
+
+    span.label {font-weight: var(--weight-semi);}
+
+  }
+}
+
+/* Labeled paragraphs */
+.manuscriptwrapper .pg-label {
+  font-weight: var(--weight-semi);
+}
+
+
+/* Collapsible handrails */
+.manuscriptwrapper .hr.hr-collapsed  {
+
+  /* Collapsed labeled blocks (theorem/proof/...) read as a short curved gutter
+     tick, not a full-width rule. Drop the label's own underline so there is no
+     long horizontal line for the curved bracket to fail to meet. */
+  &.hr-labeled > .hr-content-zone > .hr-label {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  & > .hr-border-zone > .hr-border-rect {
+    border-bottom-left-radius: var(--chunk-half);
+  }
+
+  & > .hr-spacer-zone {
+    border-bottom-left-radius: var(--chunk-twelfth);
+  }
+
+  & > .hr-spacer-zone, & > .hr-border-zone > .hr-border-rect {
+    border-bottom: var(--border-med) solid var(--handrail-default);
+  }
+
+  &.hr-labeled > .hr-spacer-zone,
+  &.hr-labeled > .hr-border-zone > .hr-border-rect,
+  &.step > .hr-spacer-zone,
+  &.step > .hr-border-zone > .hr-border-rect {
+    border-bottom: var(--border-thin) solid var(--handrail-default);
+  }
+
+  & > .hr-collapse-zone > .hr-collapse {
+    opacity: 100%;
+
+    .icon.expand svg { stroke: var(--primary-700); }
+
+  }
+
+}
+
+/* Proofs */
+.manuscriptwrapper .hr {
+
+  .hr-shift-1 {
+    left: var(--chunk-half);
+    /* As a flex item the shifted box grows back to full width and overflows
+       its container's right edge by chunk-half at every nesting level,
+       accumulating. Pin the width and stop the flex grow/shrink so each
+       shifted box stays flush at the content column -- this is what keeps step
+       numbers, highlights, and tombstones on one right-hand column at any
+       depth, with no per-level offset hacks. !important is required to beat the
+       flex defaults that otherwise restore the full width. */
+    width: calc(100% - var(--chunk-half)) !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  &.subproof .hr-offset.hr.hr-hidden .hr-border-zone {opacity: 100%;}
+
+  &.subproof > .hr-border-zone > .hr-border-rect {top: 0; width: var(--hr-zone-width)}
+
+  &.subproof {margin-block-end: 0;}
+
+  &.proof {position: relative;} /*to be able to position the Halmos*/
+
+  /* The proof's own end-of-proof tombstone keys off its content-zone, not the
+     proof box. The proof is hr-labeled (not hr-offset), so its info-zone stays
+     in normal flex flow on the right; the proof box therefore runs past the
+     content column that the offset steps' tombstones align to. Anchoring to the
+     content-zone drops the proof tombstone into the same column as the steps. */
+  &.proof > .hr-content-zone {position: relative;}
+  &.proof:hover > .hr-content-zone::after,
+  &.proof:focus > .hr-content-zone::after,
+  &.proof .step:hover::after,
+  &.proof .step:focus::after {
+    content: "";
+    position: absolute;
+    background: var(--text-keyword);
+    width: var(--chunk-sixth);
+    height: var(--chunk-sixth);
+    top: calc(100% - var(--chunk-sixth));
+    border-radius: var(--radius-sm);
+  }
+  &.proof:hover > .hr-content-zone::after, &.proof:focus > .hr-content-zone::after,
+  &.proof .step:hover::after, &.proof .step:focus::after {left: calc(100% + var(--chunk-sixth));}
+  /* Tombstones ride the same flush right edge as the numbers (see .hr-shift-1),
+     so the base rule above positions them at every depth; no per-level offset. */
+
+  &.step.hr-collapsed > .hr-content-zone::after {
+    content: "steps hidden";
+    position: relative;
+    left: var(--chunk-twelfth);
+    top: var(--chunk-sixth);
+    /* >= 4.5:1 on the page (--medium was ~2.05): the tombstone stays a quiet
+       gray but meets WCAG 1.4.3 AA. */
+    color: var(--dark);
+    font-style: italic;
+    font-size: 0.875rem;
+  }
+
+}
+
+
+/* Prevent inline elements (math, references) followed by punctuation from being separated. */
+.manuscriptwrapper .inline-wrapper {
+  white-space: nowrap;
+}
+
+
+/* Icons */
+.manuscriptwrapper .icon svg {
+  width: var(--chunk-third);
+  height: var(--chunk-third);
+  display: block;
+}
+
+.manuscriptwrapper .tabler-icon {
+  &.bookmark {fill: var(--information-500); }
+  &.check {fill: var(--green-500);}
+  &.success {fill: var(--success-500);}
+  &.alert {fill: var(--warning-500); }
+  &.exclamation {fill: var(--orange-500); }
+  &.question {fill: var(--purple-500);}
+  &.heart {fill: var(--red-500); }
+  &.star {fill: var(--yellow-500); }
+  &.quote {fill: var(--pink-500); }
+  &.collapse {stroke: var(--dark); }
+  &.error {fill: var(--error-500); }
+}
+
+
+/* TOC */
+.manuscriptwrapper {
+
+  /* TOC tree view: build-time dependency graph shown in place of the list */
+  .toc svg.toc-tree {
+    display: none;
+  }
+
+  .toc.tree svg.toc-tree {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .toc.tree ul.contents {
+    display: none;
+  }
+
+  .toc-tree .toc-node rect {
+    fill: var(--white, #fff);
+    stroke: var(--gray-300, #d4dae3);
+    stroke-width: 1.2;
+  }
+
+  .toc-tree .toc-node.level-1 rect {
+    stroke-width: 1.6;
+  }
+
+  .toc-tree .toc-node .toc-secnum {
+    /* user-unit size is set per-SVG by tocarcs.js so the on-screen size stays
+       constant regardless of how the graph is scaled to fit. */
+    font-size: var(--toc-label-px, 13.5px);
+    font-weight: 600;
+    fill: var(--gray-700);
+  }
+
+  .toc-tree .toc-node.level-1 .toc-secnum {
+    fill: var(--text-body);
+  }
+
+  /* External named results a step depends on (lemmas, theorems). Tinted and
+     dash-outlined in the accent color so they read as "proved elsewhere",
+     distinct from the proof's own steps. */
+  .toc-tree .toc-node-result rect {
+    fill: var(--primary-50);
+    stroke: var(--primary-500);
+    stroke-width: 1.4;
+    stroke-dasharray: 3 2;
+  }
+
+  .toc-tree .toc-node-result .toc-secnum {
+    fill: var(--primary-700);
+    font-weight: 600;
+  }
+
+  .toc-tree .toc-node a {
+    text-decoration: none;
+  }
+
+  .toc-tree .toc-hover-label rect {
+    fill: var(--white, #fff);
+    stroke: var(--gray-300, #d4dae3);
+    stroke-width: 1.2;
+  }
+
+  .toc-tree .toc-hover-label text {
+    font-size: var(--toc-hover-px, 13px);
+    font-weight: 600;
+    fill: var(--text-body);
+  }
+
+  .toc-tree .toc-edge {
+    fill: none;
+    stroke: var(--primary-700);
+    opacity: 0.75;
+  }
+
+  /* Forward pointers ("expanded later in...") are NOT prerequisites; keep them
+     in a very gentle visual register so they never compete with the
+     read-before structure. */
+  .toc-tree .toc-edge.fwd {
+    stroke: var(--gold, #b08a3e);
+    stroke-dasharray: 3 5;
+    stroke-width: 1 !important;
+    opacity: 0.28;
+  }
+
+  /* Containment edges (read the enclosing section first) are real
+     prerequisites, drawn as a quiet skeleton. */
+  .toc-tree .toc-edge.struct {
+    stroke: var(--gray-300, #d4dae3);
+    opacity: 0.85;
+  }
+
+  .toc-tree .toc-node.level-0 rect {
+    fill: var(--primary-700);
+    stroke: var(--primary-700);
+  }
+
+  .toc-tree .toc-node.level-0 .toc-secnum {
+    fill: var(--white, #fff);
+    font-weight: 700;
+  }
+
+  .toc-tree .toc-arrowhead.dep { fill: var(--primary-700); }
+  .toc-tree .toc-arrowhead.fwd { fill: var(--gold, #b08a3e); }
+
+  .toc-tree .toc-faded {
+    opacity: 0.1;
+    transition: opacity 0.15s;
+  }
+
+  .toc-tree .toc-node, .toc-tree .toc-edge {
+    transition: opacity 0.15s;
+  }
+
+  /* Floating proof-tree rail: shows the in-view proof's step tree (or the
+     section TOC between proofs), pinned to the left as the reader scrolls. */
+  .proof-rail { display: none; }
+
+  .proof-rail.active {
+    /* A contained floating panel in the gutter: a clear surface with its own
+       border and shadow, not loose controls hovering in the margin. Scope/
+       sub-tabs on top, the shown panel below; the Map tree is capped to fit. */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    position: fixed;
+    left: 1rem;
+    /* Anchor the top so it doesn't drift up and down as content changes. */
+    top: 5rem;
+    width: min(31vw, 380px);
+    max-height: calc(100vh - 7rem);
+    overflow: hidden;
+    z-index: 40;
+    padding: 0.85rem;
+    background: var(--surface-page);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 1px 2px rgba(40, 60, 90, 0.04), 0 4px 14px rgba(40, 60, 90, 0.07);
+  }
+  /* Collapsed: a compact square handle, not a tall rounded blob. */
+  .proof-rail.active.collapsed {
+    padding: 0.4rem;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px rgba(40, 60, 90, 0.10);
+  }
+
+  /* Visible keyboard focus for the sidebar controls and the tree-DAG nodes. */
+  .proof-rail :focus-visible,
+  .toc-tree a:focus-visible {
+    outline: 2px solid var(--primary-700);
+    outline-offset: 2px;
+  }
+
+  /* Tab rows: the scope axis (Document / Proof) on top, then the active scope's
+     sub-tabs below. */
+  .rail-tabs,
+  .rail-subtabs,
+  .rail-scopes { display: flex; gap: 0.3rem; flex-shrink: 0; }
+  .rail-scope {
+    flex: 1;
+    padding: 0.3rem 0.5rem;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--gray-700);
+  }
+  .rail-scope.active {
+    color: var(--primary-700);
+    border-bottom-color: var(--primary-700);
+  }
+  .rail-scope:hover { color: var(--primary-700); }
+
+  .rail-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-lg);
+    background: var(--gray-75);
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: var(--gray-700);
+  }
+  .rail-tab svg { width: 18px; height: 18px; }
+  .rail-tab.active {
+    color: var(--primary-700);
+    background: var(--primary-50);
+  }
+  .rail-tab:hover { color: var(--primary-700); }
+
+  /* Reading scope: the type controls. */
+  .rail-reading-panel {
+    display: flex; flex-direction: column; gap: 0.75rem;
+    padding: 0.5rem 0.2rem; overflow-y: auto;
+  }
+  .reading-row { display: flex; flex-direction: column; gap: 0.3rem; }
+  .reading-label {
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--gray-700);
+  }
+  .reading-opts { display: flex; gap: 0.25rem; }
+  .reading-opt {
+    flex: 1; padding: 0.3rem 0.4rem; border: 1px solid var(--gray-300);
+    border-radius: 0.3rem; background: var(--gray-0); color: var(--gray-800);
+    font-size: 0.8rem; line-height: 1; cursor: pointer;
+  }
+  .reading-opt:hover { border-color: var(--primary-400); }
+  .reading-opt.active {
+    background: var(--primary-100); border-color: var(--primary-500);
+    color: var(--primary-800);
+  }
+  /* Size row: the four A's grow to preview the step. */
+  .reading-row[data-control="size"] .reading-opt { font-family: var(--font-body); }
+  .reading-row[data-control="size"] .reading-opt:nth-child(1) { font-size: 0.7rem; }
+  .reading-row[data-control="size"] .reading-opt:nth-child(2) { font-size: 0.85rem; }
+  .reading-row[data-control="size"] .reading-opt:nth-child(3) { font-size: 1rem; }
+  .reading-row[data-control="size"] .reading-opt:nth-child(4) { font-size: 1.2rem; }
+
+  /* Collapse control: shrinks the sidebar to a single re-open affordance so the
+     document can read as just the prose. */
+  /* The scope tabs and the collapse control share the top row, so the panel
+     opens with no near-empty row above the tabs. */
+  .rail-header { display: flex; align-items: center; gap: 0.4rem; }
+  .rail-header .rail-scopes { flex: 1; }
+
+  .rail-collapse {
+    display: inline-flex;
+    padding: 0.2rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--gray-700);
+  }
+  .rail-collapse svg { width: 18px; height: 18px; }
+  .rail-collapse:hover { color: var(--primary-700); }
+  .proof-rail.collapsed { width: auto; gap: 0; }
+  .proof-rail.collapsed > :not(.rail-header) { display: none; }
+  .proof-rail.collapsed .rail-scopes { display: none; }
+  .rail-collapse-collapse,
+  .rail-collapse-expand { display: inline-flex; }
+  .rail-collapse-expand { display: none; }
+  .proof-rail.collapsed .rail-collapse-collapse { display: none; }
+  .proof-rail.collapsed .rail-collapse-expand { display: inline-flex; }
+
+  /* Scope routing: show only the active scope's sub-tabs and section. */
+  .proof-rail.scope-document .rail-subtabs-proof,
+  .proof-rail.scope-document .rail-proof,
+  .proof-rail.scope-document .rail-pinned,
+  .proof-rail.scope-document .rail-reading { display: none; }
+  .proof-rail.scope-proof .rail-subtabs-document,
+  .proof-rail.scope-proof .rail-document,
+  .proof-rail.scope-proof .rail-pinned,
+  .proof-rail.scope-proof .rail-reading { display: none; }
+  .proof-rail.scope-reading .rail-subtabs-document,
+  .proof-rail.scope-reading .rail-subtabs-proof,
+  .proof-rail.scope-reading .rail-document,
+  .proof-rail.scope-reading .rail-pinned,
+  .proof-rail.scope-reading .rail-proof { display: none; }
+  /* Pinned scope: only the pinned excerpt, no sub-tabs. */
+  .proof-rail.scope-pinned .rail-subtabs-document,
+  .proof-rail.scope-pinned .rail-subtabs-proof,
+  .proof-rail.scope-pinned .rail-document,
+  .proof-rail.scope-pinned .rail-proof,
+  .proof-rail.scope-pinned .rail-reading { display: none; }
+  /* The Pinned tab is always present (like Proof); its section shows an empty
+     state until something is pinned, then swaps to the head + body. */
+  .rail-pinned-empty {
+    display: none;
+    color: var(--gray-700);
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+  .proof-rail:not(.has-pin) .rail-pinned-empty { display: block; }
+  .proof-rail:not(.has-pin) .rail-pinned-head,
+  .proof-rail:not(.has-pin) .rail-pinned-body { display: none; }
+
+  .rail-pinned-head {
+    display: flex;
+    align-items: center;
+    gap: var(--chunk-sixth);
+    padding-bottom: var(--chunk-sixth);
+    border-bottom: var(--border-thin) solid var(--border-primary);
+    margin-bottom: var(--chunk-sixth);
+  }
+  .rail-pinned-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rail-pin-close {
+    display: inline-flex;
+    flex-shrink: 0;
+    padding: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+    color: var(--dark);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .rail-pin-close:hover { color: var(--primary-700); }
+  .rail-pin-close svg { width: 1rem; height: 1rem; }
+  /* The pinned excerpt renders at rail width, no widening; long content scrolls. */
+  .rail-pinned-body {
+    min-height: 0;
+    overflow-y: auto;
+    font-size: 0.8rem;
+  }
+
+  .rail-section { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+
+  /* Document sub-tab routing. */
+  .proof-rail.doc-view-map .rail-notation { display: none; }
+  .proof-rail.doc-view-notation .rail-doc-map { display: none; }
+  .rail-doc-map { display: flex; align-items: center; justify-content: center; min-height: 0; }
+
+  .proof-rail-item { display: none; min-height: 0; }
+  /* A little more breathing room below the sub-tabs than the row gap alone. */
+  .proof-rail-item.shown {
+    display: flex; flex-direction: column; min-height: 0;
+    margin-top: var(--chunk-sixth);
+  }
+
+  /* Proof sub-tab routing: show only the active panel of the shown item. */
+  .proof-rail.proof-view-map .rail-state { display: none; }
+  .proof-rail.proof-view-state .rail-map { display: none; }
+  .rail-map { display: flex; align-items: center; justify-content: center; min-height: 0; }
+
+  /* Outside any proof the Proof scope has nothing live to show. */
+  .rail-proof-empty {
+    display: none;
+    color: var(--gray-700);
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+  .proof-rail.no-proof .rail-proof-empty { display: block; }
+
+  /* Collapsed proof: the rail shows a single node standing for the proof, not
+     the step graph the page is hiding. The card itself expands the proof. */
+  .proof-rail-item .rail-collapsed-card { display: none; }
+  .proof-rail.proof-collapsed .proof-rail-item.shown .rail-map,
+  .proof-rail.proof-collapsed .proof-rail-item.shown .rail-state { display: none; }
+  .proof-rail.proof-collapsed .proof-rail-item.shown .rail-collapsed-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    text-align: left;
+    font: inherit;
+    background: var(--gray-75);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+  }
+  .proof-rail.proof-collapsed .proof-rail-item.shown .rail-collapsed-card:hover {
+    background: var(--primary-50);
+    border-color: var(--primary-700);
+  }
+  .rail-collapsed-title { font-weight: 600; font-size: 0.875rem; color: var(--text-body); }
+  .rail-collapsed-meta { font-size: 0.8rem; color: var(--dark); }  /* --text-subtle fails 4.5:1 on the rail surface (esp. dark); --dark passes */
+  .rail-collapsed-cue { font-size: 0.8rem; color: var(--primary-700); }
+
+  /* Notation pane: one rebind row per declared symbol. */
+  .rail-notation {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.2rem 0;
+  }
+  .rail-notation-row { display: flex; flex-direction: column; gap: 0.25rem; }
+  .rail-notation-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-700);
+    font-weight: 700;
+  }
+  .rail-notation-edit { display: flex; align-items: center; gap: 0.4rem; }
+  .rail-notation-actions { display: flex; align-items: center; gap: 0.4rem; }
+  .rail-notation-apply {
+    padding: 0.2rem 0.7rem;
+    border: 1px solid var(--primary-700);
+    border-radius: var(--radius-lg);
+    background: var(--primary-700);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .rail-notation-apply:hover { background: var(--primary-800); }
+  .rail-notation-input {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    padding: 0.25rem 0.45rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    background: var(--white, #fff);
+    color: var(--text-body);
+  }
+  .rail-notation-input:focus { outline: none; border-color: var(--primary-700); }
+  .rail-notation-input.invalid { border-color: var(--error-500); }
+  .rail-notation-preview {
+    min-width: 1.8em;
+    text-align: center;
+    color: var(--text-subtle);
+    font-size: 0.9rem;
+  }
+  .rail-notation-reset,
+  .rail-notation-locate {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.2rem;
+    color: var(--gray-400);
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .rail-notation-reset:hover,
+  .rail-notation-locate:hover { color: var(--primary-700); }
+  .rail-notation-locate { display: inline-flex; }
+  .rail-notation-locate svg { width: 16px; height: 16px; }
+
+  /* Gentle, temporary highlight on the symbol the reader located: a soft halo
+     that fades in, holds, then fades out, so it's easy to spot without jarring.
+     The box-shadow spread haloes even a small inline symbol without shifting
+     layout. */
+  /* Highlight the located symbol. Static (not animated) so it survives
+     prefers-reduced-motion, and !important so it beats the math element's own
+     background. The box-shadow spread haloes even a small inline symbol. */
+  .notation-located {
+    background-color: var(--yellow-300) !important;
+    box-shadow: 0 0 0 4px var(--yellow-300);
+    border-radius: 3px;
+  }
+  .rail-notation-empty {
+    color: var(--gray-700);
+    font-style: italic;
+    font-size: 0.82rem;
+  }
+
+  /* Capped to the gutter box: a tree larger than this scales down (aspect
+     preserved) to fit entirely; a smaller one stays at its natural size. No
+     overflow, so the rail never shows a scrollbar. */
+  .proof-rail svg.toc-tree {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(90vh - 2.5rem);
+    overflow: visible;
+  }
+
+  /* Label type is stabilized to a constant on-screen size by tocarcs.js (via
+     --toc-label-px), so it stays readable whether the DAG is shrunk to fit the
+     gutter or rendered large; it no longer tracks the graph's scale. */
+  .proof-rail svg.toc-tree .toc-secnum { font-size: var(--toc-label-px, 13.5px); }
+
+  /* Make only the node boxes 10% larger so the bumped type sits in them more
+     comfortably. Scaled in place from each box's own centre (transform-box:
+     fill-box), so node positions, edges, spacing, and the text are unchanged. */
+  .proof-rail svg.toc-tree .toc-node rect {
+    transform: scale(1.1);
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  /* Hover tooltip type bumped to match the nodes; the JS sizes its background
+     box from getBBox, so the box re-fits the larger text automatically. */
+  .proof-rail svg.toc-tree .toc-hover-label text { font-size: var(--toc-hover-px, 13px); }
+
+  /* State view: live hypotheses and current goal, cloned from the body. */
+  .rail-state {
+    font-size: 0.82rem;
+    color: var(--text-body);
+    overflow: hidden; /* hard rule: no scrollbars */
+    overflow-wrap: break-word;
+  }
+  .rail-state .hr-content-zone { width: auto; }
+  .rail-state-block { margin-bottom: var(--chunk-half); }
+  /* No trailing gap below the last band; the card padding alone sets the inset,
+     matching the left/right padding instead of stacking a band gap on top. */
+  .rail-state-block:last-child { margin-bottom: 0; }
+
+  /* Band header is a full-width toggle button (keyboard- and AT-operable). */
+  .rail-state-head {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; background: none; border: none; padding: 0;
+    margin-bottom: var(--chunk-sixth); cursor: pointer;
+  }
+  .rail-state-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-700);
+    font-weight: 700;
+  }
+  .rail-goal .rail-state-label { color: var(--primary-700); }
+  /* Tabler chevron-down; rotates to point right when its band is collapsed. */
+  .rail-state-caret {
+    display: inline-flex;
+    color: var(--gray-400);
+    transition: transform 0.15s ease;
+  }
+  .rail-state-caret svg { width: 15px; height: 15px; display: block; }
+  .rail-state-block.collapsed .rail-state-caret { transform: rotate(-90deg); }
+  .rail-state-block.collapsed .rail-state-body { display: none; }
+
+  .rail-goal .rail-state-body { color: var(--gray-900); }
+  /* The accent rule is ONE continuous bar per band, parked at the gutter/content
+     boundary, so it can never break between rows of differing height. */
+  .rail-state-body { position: relative; }
+  .rail-state-body::before {
+    content: ""; position: absolute; top: 0; bottom: 0;
+    left: var(--rail-num-width, 2.8ch);
+    width: 2px; background: var(--gray-300);
+  }
+  .rail-hyps .rail-state-body::before { background: var(--primary-400); }
+  .rail-goal .rail-state-body::before { width: 3px; background: var(--primary-600); }
+  .rail-state-body ul {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column;
+  }
+  .rail-hyp-empty {
+    color: var(--gray-400); font-style: italic;
+    padding-left: calc(var(--rail-num-width, 2.8ch) + var(--chunk-sixth));
+  }
+
+  /* Every row jumps to where its item was introduced: the whole row is the
+     mouse target, the leading keyword the keyboard control. A two-column grid
+     reads "number │ content": the provenance number sits in a left gutter, the
+     band's accent rule (drawn once on the body, above) runs at the column
+     boundary, then the cloned construct. Markers align to the first text
+     baseline. A faint wash on hover (or keyboard focus) is the only affordance. */
+  .rail-jump-row {
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: var(--rail-num-width, 2.8ch) 1fr;
+    align-items: baseline;
+  }
+  .rail-jump-control { cursor: pointer; }
+  .rail-jump-row:hover,
+  .rail-jump-row:focus-within { background: var(--gray-100); }
+  /* justify-self:end keeps the marker content-sized (not stretched to the
+     column), so it stays right-aligned against the rule AND its measured
+     scrollWidth is the true text width, letting the gutter shrink again after a
+     deeply-nested proof. */
+  .rail-state-num {
+    justify-self: end;
+    white-space: nowrap;
+    padding: var(--chunk-twelfth) var(--chunk-sixth) var(--chunk-twelfth) 0;
+    color: var(--gray-700);
+    font-size: 0.78em;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+  .rail-jump-row > :not(.rail-state-num) {
+    padding: var(--chunk-twelfth) 0 var(--chunk-twelfth) var(--chunk-sixth);
+  }
+
+  /* Demote the construct keyword to a quiet tag so the math reads loudest.
+     --gray-700 (not --gray-600) keeps it quiet while clearing WCAG AA on the
+     panel surface. */
+  .rail-state .keyword {
+    color: var(--gray-700);
+    font-weight: 500;
+    font-size: 0.85em;
+    letter-spacing: 0.02em;
+  }
+
+  /* The goal preview: a clamped statement so the collapsed state still shows
+     the opening words, with a quiet "show more" link below it. */
+  .rail-goal-text.clamped {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .rail-goal-toggle {
+    display: block;
+    margin-top: var(--chunk-twelfth);
+    background: none; border: none; padding: 0; cursor: pointer; text-align: left;
+    color: var(--primary-600); font-size: 0.78rem; text-decoration: underline;
+  }
+
+  .rail-state-empty { color: var(--gray-700); font-style: italic; font-size: 0.8rem; }
+
+  /* Below the desktop breakpoint there is no room to float the rail beside the
+     column, so the same .proof-rail re-skins as a bottom-sheet DRAWER with three
+     states driven by data-drawer (closed | peek | open). prooftree.js injects the
+     .rail-handle grip and the .rail-peek goal bar and drives the transitions. */
+  .rail-handle, .rail-peek { display: none; }
+
+  @media (max-width: 1320px) {
+    .proof-rail.active {
+      position: fixed;
+      left: 0; right: 0; bottom: 0; top: auto;
+      /* Match the reading column, not the whole viewport: same width as the
+         text content (manuscript max-width minus the side padding), centered. */
+      margin-inline: auto;
+      width: calc(100% - 2 * var(--side-padding));
+      max-width: calc(var(--content-max-width, var(--chunk-20)) - 2 * var(--side-padding));
+      max-height: 85vh;
+      gap: 0;
+      padding: 0;
+      border: 1px solid var(--gray-200);
+      border-bottom: none;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      box-shadow: 0 -2px 16px rgba(40, 60, 90, 0.12);
+    }
+
+    /* The grip: a slim pill, present in every state (it raises/lowers the
+       sheet). Kept compact so peek is a thin bar, not a tall blank panel. */
+    .proof-rail.active .rail-handle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 20px;
+      padding: 6px 0 2px;
+      flex-shrink: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    .proof-rail.active .rail-handle::before {
+      content: "";
+      width: 2rem; height: 4px;
+      border-radius: 999px;
+      background: var(--gray-300);
+    }
+
+    /* The desktop collapse control is redundant on the drawer: the grip lowers
+       it (drag down to close), so hide the "close sidebar" button on mobile. */
+    .proof-rail.active .rail-collapse { display: none; }
+
+    /* Peek bar: a one-line, clamped current goal at reading size. The cloned
+       goal (with rendered math) is forced inline so it never wraps the bar. */
+    .proof-rail.active .rail-peek {
+      align-items: baseline;
+      gap: 0.4rem;
+      padding: 0 var(--chunk-half) var(--chunk-third);
+      min-width: 0;
+      font-size: 1rem;
+    }
+    /* Flatten the cloned goal onto one line: inline its block containers and let
+       a display equation sit inline-block. Do NOT touch MathML internals (they
+       need their own display), so only the block wrappers are overridden. */
+    .proof-rail.active .rail-peek-goal :is(div, p, .paragraph, .mathblock, ul, ol, li) {
+      display: inline;
+      margin: 0;
+    }
+    /* The goal can contain a display equation, which temml hard-codes to
+       `display: block math` via an inline style (so it pops out big and centered
+       on its own line). In the one-line peek, override that to flow inline and
+       render text-style (compact), like inline math in a sentence. */
+    .proof-rail.active .rail-peek-goal math[display="block"] {
+      display: inline-block !important;
+      math-style: compact;
+      font-size: 0.95em;
+      vertical-align: middle;
+      margin: 0;
+    }
+    .proof-rail.drawer-no-goal .rail-peek { justify-content: center; }
+    .rail-peek-label {
+      flex-shrink: 0;
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--primary-700);
+    }
+    .proof-rail.drawer-no-goal .rail-peek-label { display: none; }
+    .rail-peek-goal {
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--text-body);
+    }
+    .proof-rail.drawer-no-goal .rail-peek-goal { color: var(--gray-700); font-style: italic; }
+
+    /* ---- states ---- */
+    .proof-rail.active[data-drawer="closed"] { height: 44px; }
+    .proof-rail.active[data-drawer="closed"] > .rail-header,
+    .proof-rail.active[data-drawer="closed"] > .rail-subtabs,
+    .proof-rail.active[data-drawer="closed"] > .rail-section { display: none; }
+
+    .proof-rail.active[data-drawer="peek"] { height: auto; }
+    .proof-rail.active[data-drawer="peek"] > .rail-header,
+    .proof-rail.active[data-drawer="peek"] > .rail-subtabs,
+    .proof-rail.active[data-drawer="peek"] > .rail-section { display: none; }
+    .proof-rail.active[data-drawer="peek"] > .rail-peek { display: flex; }
+
+    .proof-rail.active[data-drawer="open"] { height: 75vh; }
+    .proof-rail.active[data-drawer="open"] > .rail-header,
+    .proof-rail.active[data-drawer="open"] > .rail-subtabs { padding: 0 var(--chunk-half); }
+    .proof-rail.active[data-drawer="open"] > .rail-header { padding-top: var(--chunk-third); }
+    .proof-rail.active[data-drawer="open"] > .rail-section {
+      padding: 0 var(--chunk-half) var(--chunk-half);
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+    }
+  }
+
+  /* Rail nodes are clickable (focus mode), so signal it. */
+  .proof-rail-item .toc-node { cursor: pointer; }
+
+  /* When a step is focused, everything outside its cone recedes hard and the
+     cone path lights up bold blue so it reads as a single unambiguous route.
+     Selectors match the specificity of the struct/fwd edge opacity rules above
+     (and come later) so they actually win over them. */
+  .toc-tree .toc-node.focus-faded,
+  .toc-tree .toc-edge.focus-faded {
+    opacity: 0.13;
+  }
+
+  .toc-tree .toc-edge.focus-lit {
+    opacity: 1;
+    stroke: var(--primary-700);
+    stroke-dasharray: none;
+    stroke-width: 2.4;
+  }
+
+  .toc-tree .toc-node.focus-lit rect {
+    stroke: var(--primary-700);
+    stroke-width: 1.8;
+  }
+
+  /* Active-step tracking: the step currently being read is filled to read as
+     "you are here", distinct from the white default and the solid-blue root. */
+  .toc-tree .toc-node.current-step rect {
+    fill: var(--primary-100);
+    stroke: var(--primary-700);
+    stroke-width: 2;
+  }
+  .toc-tree .toc-node.current-step .toc-secnum {
+    fill: var(--primary-700);
+    font-weight: 700;
+  }
+
+  /* Proof DAG: the rail pins the current step's prerequisite cone, so the tree
+     rests showing your path. Containment and reference edges share one blue (no
+     blue-vs-gray puzzle); their stroke-width already sets them apart. Everything
+     off the path fades to a faint web. The faded selectors are kept specific
+     enough to beat the per-kind edge colour. */
+  .rail-map .toc-tree .toc-edge,
+  .rail-map .toc-tree .toc-edge.struct {
+    stroke: var(--primary-600);
+    opacity: 0.9;
+  }
+  .rail-map .toc-tree .toc-edge.toc-faded,
+  .rail-map .toc-tree .toc-node.toc-faded {
+    opacity: 0.12;
+  }
+
+  /* The one way out of focus mode: a clickable bar in the rail (which is fixed
+     on screen), stacked above the tree while focused. */
+  .proof-rail.active.focusing {
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  /* The one way out of focus mode: a filled accent button so it reads clearly as
+     the primary action of this transient mode. Tokens flip with the theme. */
+  .proof-focus-exit {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    max-width: 100%;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: var(--weight-semi);
+    line-height: 1.2;
+    color: var(--almost-white);
+    background: var(--primary-600);
+    border: var(--border-thin) solid var(--primary-600);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .proof-focus-exit:hover,
+  .proof-focus-exit:focus-visible {
+    color: var(--almost-white);
+    background: var(--primary-700);
+    border-color: var(--primary-700);
+  }
+
+  .proof-focus-exit .proof-focus-back { font-size: 1.05em; line-height: 1; }
+  .proof-focus-exit .proof-focus-show-all { font-weight: var(--weight-semi); }
+
+  /* Dependency lens: a sticky, prose-anchored view of one step's cone, the dual
+     of the rail's hover. Upstream ("what does this rest on") lights the route to
+     the foundations and recedes the rest; downstream ("what rests on this")
+     marks the dependents with an amber load fault-line WITHOUT dimming the rest,
+     so the reader keeps reading them in place. Both directions compose. The
+     amber is a fixed load colour (not the theme accent) so a dependent never
+     reads as just another lit step. Marks use an inset shadow rather than a
+     border so they never reflow the step or fight the offset handrail. */
+  :is(.step, .theorem, .lemma, .corollary, .proposition).deplens-faded {
+    opacity: 0.32;
+    transition: opacity 160ms ease;
+  }
+  :is(.step, .theorem, .lemma, .corollary, .proposition).deplens-up {
+    box-shadow: inset 3px 0 0 0 var(--primary-600);
+    background: var(--primary-100);
+    border-radius: var(--radius-md);
+  }
+  :is(.step, .theorem, .lemma, .corollary, .proposition).deplens-down {
+    box-shadow: inset 3px 0 0 0 var(--yellow-600, #e28800);
+    background: rgba(226, 136, 0, 0.07);
+    border-radius: var(--radius-md);
+  }
+  /* The anchor reads strongest in either direction (wins over up/down by order). */
+  :is(.step, .theorem, .lemma, .corollary, .proposition).deplens-anchor {
+    box-shadow: inset 3px 0 0 0 var(--primary-700);
+    background: var(--primary-100);
+    border-radius: var(--radius-md);
+    opacity: 1;
+  }
+  /* A downstream mark animates in once, a quiet "drain" from the anchor outward;
+     skipped under reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    :is(.step, .theorem, .lemma, .corollary, .proposition).deplens-down {
+      animation: deplens-drain 320ms ease both;
+    }
+  }
+  @keyframes deplens-drain {
+    from {
+      background: rgba(226, 136, 0, 0);
+      box-shadow: inset 0 0 0 0 transparent;
+    }
+  }
+
+  /* Rail echo: the proof map mirrors the body lens. Same blue for upstream as
+     focus uses, the amber load colour for downstream. */
+  .toc-tree .toc-node.deplens-faded,
+  .toc-tree .toc-edge.deplens-faded {
+    opacity: 0.13;
+  }
+  .toc-tree .toc-edge.deplens-up {
+    opacity: 1;
+    stroke: var(--primary-700);
+    stroke-dasharray: none;
+    stroke-width: 2.4;
+  }
+  .toc-tree .toc-node.deplens-up rect {
+    stroke: var(--primary-700);
+    stroke-width: 1.8;
+  }
+  .toc-tree .toc-edge.deplens-down {
+    opacity: 1;
+    stroke: var(--yellow-600, #e28800);
+    stroke-dasharray: none;
+    stroke-width: 2.4;
+  }
+  .toc-tree .toc-node.deplens-down rect {
+    stroke: var(--yellow-600, #e28800);
+    stroke-width: 1.8;
+  }
+  .toc-tree .toc-node.deplens-anchor rect {
+    fill: var(--primary-100);
+    stroke: var(--primary-700);
+    stroke-width: 2;
+  }
+
+
+  .toc-wrapper, .float-minimap-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding-left: var(--chunk);
+
+    ul.contents {
+      flex-grow: 1;
+    }
+
+    .minimap {
+      width: var(--chunk);
+      display: flex;
+      justify-content: center;
+
+      svg {
+	    width: calc(2 * var(--chunk-third));
+	    height: 100%;
+	    display: block;
+	    fill: var(--gray-200);
+	    stroke: var(--gray-200);
+      }
+    }
+
+  }
+
+  .float-minimap-wrapper {
+
+    .minimap {
+      opacity: 50%;
+      position: fixed;
+      left: var(--chunk);
+      top: 50%;
+      transform: translateY(-50%);
+
+      &:hover {opacity: 100%};
+
+    }
+
+  }
+
+  ul.contents {
+    list-style: none;
+    padding-inline-start: 0;
+
+    li {margin-block: 0.5rem;}
+
+  }
+
+  ul.contents ul.itemize {
+    list-style: none;
+    margin-block-end: 0;
+    padding-inline-start: 1rem;
+  }
+
+}
+
+
+/* Bibliography */
+.manuscriptwrapper ol.bibliography {
+  list-style: none;
+  counter-reset: item 1;
+  padding-inline-start: var(--chunk);
+  font-size: 0.85em;
+
+  li {margin-block: 0.75rem;}
+
+  li::before {
+    margin-right: var(--chunk-quarter);
+    padding: var(--chunk-twelfth);
+    content: counter(item);
+    width: 1.2em;
+    text-align: center;
+    display: inline-block;
+  }
+
+}
+
+.manuscriptwrapper div.bibliography {
+  font-size: 0.92em;
+}
+
+
+/* Highlighting */
+.manuscriptwrapper .hilite {
+  background-color: var(--text-hilite-bg);
+}
+
+
+/* Figures */
+.manuscriptwrapper figure {
+  margin-block: var(--h2-size);
+  text-align: center;
+  max-width: 100%;
+  overflow-x: auto; }
+.manuscriptwrapper figure > *:not(figcaption) {
+  max-width: 100%;
+  overflow-x: auto; }
+.manuscriptwrapper figcaption {
+  text-align: left;
+  margin-block: var(--h4-size); }
+.manuscriptwrapper figcaption > .hr-content-zone {
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 0.75em 1em;
+  font-size: 0.9em; }
+/* The "Figure N."/"Widget N." caption label gets the bold treatment. */
+.manuscriptwrapper figcaption .label { font-weight: var(--weight-bold); }
+
+
+/* Other */
+.manuscriptwrapper .keyword {
+  color: var(--text-keyword);
+  font-weight: var(--weight-semi); }
+/* Author block */
+.manuscriptwrapper .author-block {
+  margin-top: 1.5rem;
+  margin-bottom: 3rem; }
+
+.manuscriptwrapper .author-names {
+  font-size: 1.0625rem;
+  font-weight: var(--weight-medium);
+  color: var(--text-body);
+  line-height: var(--body-line-height);
+  margin: 0; }
+
+.manuscriptwrapper .author-names sup {
+  font-weight: var(--weight-regular);
+  color: var(--text-subtle);
+  cursor: pointer; }
+
+.manuscriptwrapper .author-details {
+  margin-top: 0.75rem; }
+
+.manuscriptwrapper .author-details summary {
+  font-size: 0.875rem;
+  font-weight: var(--weight-regular);
+  color: var(--text-subtle);
+  cursor: pointer;
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em; }
+
+.manuscriptwrapper .author-details summary::marker,
+.manuscriptwrapper .author-details summary::-webkit-details-marker {
+  display: none; }
+
+.manuscriptwrapper .author-details summary .icon {
+  display: inline-flex;
+  transition: transform 0.15s ease; }
+
+.manuscriptwrapper .author-details[open] summary .icon {
+  transform: rotate(180deg); }
+
+.manuscriptwrapper .author-details summary:hover {
+  color: var(--text-body); }
+
+.manuscriptwrapper .author-affiliations {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.75rem 0 0 0; }
+
+.manuscriptwrapper .author-affiliations li {
+  font-size: 0.875rem;
+  font-weight: var(--weight-regular);
+  color: var(--text-subtle);
+  line-height: 1.4;
+  margin-bottom: 0.25rem; }
+
+.manuscriptwrapper .author-affiliations li sup {
+  margin-right: 0.25em; }
+
+.manuscriptwrapper .author-correspondence {
+  font-size: 0.875rem;
+  color: var(--text-subtle);
+  margin-top: 0.75rem; }
+
+.manuscriptwrapper .author-correspondence a {
+  color: var(--link-default); }
+
+.manuscriptwrapper .author-correspondence a:hover {
+  color: var(--link-hover); }
+
+.manuscriptwrapper .author-note {
+  font-size: 0.875rem;
+  color: var(--text-subtle);
+  margin: 0.25rem 0; }
+
+.manuscriptwrapper .author-orcid {
+  font-size: 0.875rem;
+  color: var(--text-subtle);
+  margin: 0.25rem 0; }
+
+/* Manuscript metadata */
+.manuscriptwrapper .manuscript-date {
+  font-size: 0.9375rem;
+  color: var(--gray-700);
+  margin-block: 0.5rem 1.5rem;
+  margin-inline-start: var(--chunk); }
+
+/* Abstract keywords and MSC */
+.manuscriptwrapper .abstract .keywords,
+.manuscriptwrapper .abstract .msc {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--gray-700);
+  margin-block: 0.75rem;
+  margin-inline-start: var(--chunk); }
+
+
+/* Tables */
+.manuscriptwrapper .table-wrapper {
+  margin-block: 1em;
+  overflow-x: auto;
+  text-align: center; }
+.manuscriptwrapper .table-wrapper > table {
+  display: inline-table; }
+.manuscriptwrapper table.table {
+  border-collapse: collapse; }
+.manuscriptwrapper tbody td.tabledatum {
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  border-bottom: var(--border-extrathin) solid var(--gray-300); }
+.manuscriptwrapper thead.tablehead {
+  background: var(--gray-200); }
+.manuscriptwrapper thead.tablehead td.tabledatum {
+  padding-inline: 1rem;
+  padding-block: 0.75rem;
+  border-top: var(--border-thin) solid var(--gray-600);
+  border-bottom: var(--border-thin) solid var(--gray-600); }
+.manuscriptwrapper table.table:not(:has(thead)) tbody tr:first-child td.tabledatum {
+  border-top: var(--border-thin) solid var(--gray-600); }
+.manuscriptwrapper tbody tr:last-child td.tabledatum {
+  border-bottom: var(--border-thin) solid var(--gray-600); }
+.manuscriptwrapper .table-wrapper > figcaption {
+  margin-block: 0.5rem;
+  text-align: center; }
+.manuscriptwrapper .table-wrapper > figcaption.hr .hr-content-zone {
+  text-align: center;
+  padding-inline: 1rem;
+  padding-block: 0.5rem; }
+
+/* Hyperlinks */
+.manuscriptwrapper {
+
+  a:link, a:visited, a:active {
+    text-decoration: none;
+    color: var(--link-default);
+    cursor: pointer;
+    /* by default, links do weird things with line heights, so if we want a single line
+    inside an <a> tag to be 24px tall, we need to change its display */
+    display: inline-block;
+
+    &.reference.backlink, &.reference.cite {padding-inline: 0.05em;}
+    &.reference.backlink {font-size: 0.875rem;}
+    & > .icon.ext > svg {stroke: var(--link-default);}
+
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    color: var(--link-hover);
+
+    & > .icon.ext > svg {stroke: var(--link-hover);}
+
+  }
+
+  a:focus {
+    outline: none;              /* reset the default */
+    box-shadow: 0 var(--border-thin) 0 var(--border-action);
+    background: var(--surface-information);
+    color: var(--information-700);
+  }
+
+  a:focus:has(.icon.ext) {
+    outline: var(--border-thin) solid var(--information-500);
+    box-shadow: unset;
+    border-radius: var(--radius-md);
+    outline-offset: var(--chunk-twelfth);
+  }
+
+}
+
+
+/* Toast notifications */
+/* Modified from https://codepen.io/jrsmiffy/pen/eYYwrap */
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--chunk-sixth);
+  color: var(--extra-dark);
+  border-width: var(--border-thin);
+  border-style: solid;
+  margin: auto;
+  width: max-content;
+  padding-block: var(--chunk-sixth);
+  padding-inline: var(--chunk-third);
+  border-radius: var(--radius-xl);
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: calc(2 * var(--chunk-third));
+  white-space: nowrap;
+  overflow: hidden;
+  animation: fadein 0.5s, stay 3s 1s, fadeout 0.5s 4.5s;
+
+  & .close {
+    padding: var(--chunk-sixth);
+    border-radius: var(--radius-lg);
+    svg {stroke: var(--almost-black)};
+  }
+
+  & .close:hover {
+    cursor: pointer;
+    background: var(--light);
+  }
+
+  & .spacer {
+    display: inline-block;
+    width: var(--chunk-third);
+  }
+
+  & .bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: calc(var(--radius-xl) - var(--border-thin));
+    z-index: -1;
+    animation: shrinkleft 5s;
+  }
+
+  &.information {
+    background-color: var(--surface-information);
+    border-color: var(--border-information);
+
+    & .bg {background-color: var(--information-100);}
+
+  }
+
+  &.success {
+    background-color: var(--surface-success);
+    border-color: var(--border-success);
+
+    & .bg {background-color: var(--success-100);}
+
+  }
+
+  &.error {
+    background-color: var(--surface-error);
+    border-color: var(--border-error);
+
+    & .bg {background-color: var(--error-100);}
+
+  }
+
+}
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: calc(2 * var(--chunk-third)); opacity: 1;}
+}
+@keyframes stay {}
+@keyframes fadeout {
+  from {bottom: calc(2 * var(--chunk-third)); opacity: 1;}
+  to {bottom: calc(4 * var(--chunk-third)); opacity: 0;}
+}
+@keyframes shrinkleft {
+  from {width: 100%;}
+  to {width: 0%;}
+}
+
+
+/* RSM predefined types */
+.manuscriptwrapper {
+  .tiny {font-size: 0.5rem;}
+  .smallest {font-size: 0.7rem;}
+  .smaller {font-size: 0.8rem;}
+  .small {font-size: 0.9rem;}
+  .normal {font-size: 1rem;}
+  .large {font-size: 1.2rem;}
+  .larger {font-size: 1.44rem;}
+  .largest {font-size: 1.7281rem;}
+  .huge {font-size: 2.0741rem;}
+  .huger {font-size: 2.488rem;}
+  .draft {color: var(--primary-600);}
+}
+
+/* External cross-file references */
+a.reference.external::after {
+  content: " ↗";
+  font-size: 0.8em;
+  vertical-align: super;
+  opacity: 0.6;
+}
+
+a.reference.external {
+  color: var(--link-default);
+}
+
+a.reference.external:hover {
+  color: var(--link-hover);
+}
+
+a.reference.external:hover::after {
+  opacity: 1;
+}
+
+/* Dark mode toggle button */
+.rsm-theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full);
+  border: var(--border-thin) solid var(--border-primary);
+  background-color: var(--surface-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-soft);
+  padding: 0;
+}
+
+.rsm-theme-toggle:hover {
+  box-shadow: var(--shadow-soft), var(--shadow-border);
+  background-color: var(--surface-hover);
+  transform: scale(1.1);
+}
+
+.rsm-theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.rsm-theme-toggle:focus-visible {
+  outline: var(--border-thin) solid var(--border-action);
+  outline-offset: var(--border-thin);
+}
+
+.rsm-theme-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke: var(--extra-dark);
+}
+
+/* Show/hide icons based on theme */
+.rsm-theme-toggle .dark-icon {
+  display: none;
+}
+
+.dark-theme .rsm-theme-toggle .dark-icon {
+  display: block;
+}
+
+.dark-theme .rsm-theme-toggle .light-icon {
+  display: none;
+}
+
+/* Dark mode asset variants */
+.dark-only { display: none; }
+.dark-theme .dark-only { display: revert; }
+.dark-theme .light-only { display: none; }
+
+/* Static fallback for interactive figures (:static: / :dark:).
+   The fallback (shown by the JS static-toggle and inside <noscript> when JS is
+   off) must scale to the container, not render at the image's natural pixel
+   size, which would overflow the figure. */
+.static-fallback,
+.static-fallback img,
+.static-fallback-light,
+.static-fallback-dark {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Light is the default; the dark variant only shows in dark mode. We gate on
+   both the explicit .dark-theme class and prefers-color-scheme: dark (the same
+   two mechanisms braiid uses elsewhere), with .light-theme forcing light. */
+.static-fallback-dark { display: none; }
+.dark-theme .static-fallback-light { display: none; }
+.dark-theme .static-fallback-dark { display: revert; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-theme) .static-fallback-light { display: none; }
+  :root:not(.light-theme) .static-fallback-dark { display: revert; }
+}
+
+/* Accessibility: Disable transitions and animations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Disable transforms */
+  .rsm-theme-toggle:hover,
+  .rsm-theme-toggle:active {
+    transform: none !important;
+  }
+}
+
+/* Responsive: mobile-first scaling (Tailwind-inspired breakpoints) */
+/* Mobile: < 640px uses default 12px from :root */
+
+@media (min-width: 640px) {
+  /* sm: Small tablets and up */
+  :root {
+    font-size: 14px;  /* 116.7% of mobile */
+    --side-padding: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* lg: Desktop and up */
+  :root {
+    font-size: 16px;  /* 133% of mobile, 114% of tablet */
+    --side-padding: 6.5rem;
+  }
+}
+
+/* RSM Source Modal */
+.rsm-source-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.rsm-source-modal-content {
+  background-color: var(--surface-primary);
+  margin: 10% auto;
+  padding: var(--chunk-third);
+  border: var(--border-extrathin) solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  width: 80%;
+  max-width: calc(16 * var(--chunk));
+  box-shadow: var(--shadow-soft);
+  position: relative;
+}
+
+.rsm-source-modal-actions {
+  position: absolute;
+  top: var(--chunk-half);
+  right: var(--chunk-half);
+  display: flex;
+  gap: var(--chunk-sixth);
+}
+
+.rsm-source-modal-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.rsm-source-modal-icon-button:hover {
+  color: var(--text-primary);
+  background-color: var(--gray-200);
+}
+
+.dark-theme .rsm-source-modal-icon-button:hover {
+  background-color: var(--gray-800);
+}
+
+.rsm-source-modal-icon-button svg {
+  width: var(--chunk-half);
+  height: var(--chunk-half);
+  stroke: currentColor;
+}
+
+.rsm-source-modal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--gray-100);
+  border-radius: var(--radius-md);
+}
+
+.dark-theme .rsm-source-modal-body {
+  background: var(--gray-900);
+}
+
+.rsm-source-modal-body pre {
+  background-color: transparent;
+  padding: var(--chunk-third);
+  border: none;
+  overflow-x: auto;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.toast {
+  z-index: 2100;
+}
+
+
+/* Reorder mode: opt-in drag reordering of a proof's steps (reorder.js). The
+   handles and the insertion marker show only while the proof is .reorder-active;
+   normal reading carries no extra chrome. */
+.reorder-handle {
+  display: none;
+}
+.proof.reorder-active .step {
+  position: relative;
+}
+/* The handle takes the step's gutter, where its dots menu sits, so hide the
+   dots while reordering (they would overlap). The proof's own dots stay, so the
+   reader can reopen the menu for "Done reordering" (Esc also cancels). */
+.proof.reorder-active .step .hr-border-dots {
+  display: none;
+}
+.proof.reorder-active .reorder-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: calc(-1 * var(--chunk-half));
+  top: var(--chunk-sixth);
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  /* --dark (gray-700), not --medium: the grip is the primary affordance and
+     must clear WCAG 1.4.11 (3:1) for non-text UI, as the collapse sign does. */
+  color: var(--dark);
+  background: var(--surface-page);
+  border: var(--border-thin) solid var(--border-primary);
+  border-radius: var(--radius-md);
+  cursor: grab;
+  touch-action: none;
+  z-index: 3;
+}
+.proof.reorder-active .reorder-handle:hover,
+.proof.reorder-active .reorder-handle:focus-visible {
+  color: var(--primary-700);
+}
+.proof.reorder-active .reorder-handle:active {
+  cursor: grabbing;
+}
+.proof.reorder-active .step.reorder-dragged {
+  opacity: 0.55;
+}
+.reorder-sr-status,
+.focus-sr-status,
+.deplens-sr-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.proof.reorder-dragging {
+  user-select: none;
+}
+.reorder-indicator {
+  position: relative;
+  height: var(--border-med);
+  margin: calc(-1 * var(--border-med)) 0;
+  background: var(--primary-700);
+  border-radius: var(--border-med);
+  pointer-events: none;
+}
+.reorder-indicator.illegal {
+  background: var(--error-600);
+}
+/* The rejection reason: a pill in the handrail gutter to the left of the (red)
+   indicator, naming the dependency the move would break. Rides the indicator so
+   it tracks the target slot; hidden whenever it carries no text (a legal slot).*/
+.reorder-reason {
+  position: absolute;
+  /* Anchor at the proof's handrail rule and read rightward: the left gutter has
+     no room for the text (the floating rail occupies the far-left margin, which
+     clips leftward overflow). Sit just above the red line to clear the steps. */
+  left: calc(-2 * var(--hr-zone-width));
+  bottom: calc(100% + 0.25rem);
+  white-space: nowrap;
+  padding: 0.12rem 0.55rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: var(--weight-semi);
+  line-height: 1.3;
+  color: var(--error-600);
+  background: var(--surface-page);
+  border: var(--border-thin) solid var(--error-600);
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+  pointer-events: none;
+  z-index: 4;
+}
+.reorder-reason:empty {
+  display: none;
+}
+
+/* "Pin" button inside a reference's hover preview: promotes the transient
+   excerpt into the rail's Pinned tab. The tooltip mounts on <body>, so this
+   lives outside the rail's media block. */
+.ref-pin-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--chunk-sixth);
+}
+.ref-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.72rem;
+  color: var(--dark);
+  background: var(--surface-page);
+  border: var(--border-thin) solid var(--border-primary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.ref-pin:hover,
+.ref-pin:focus-visible {
+  color: var(--primary-700);
+  border-color: var(--primary-700);
+}
+.ref-pin svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+/* Print / PDF.
+
+   Browsers export PDF with JavaScript ON, so the JS-off <noscript> path never
+   fires and the screen-only chrome (floating rail, gutter controls, collapse
+   folds) would otherwise leak onto paper. This block is the real print fallback:
+   it swaps live widgets for their static images, strips interactive chrome, and
+   unfolds everything JS hid so the PDF is a complete, readable paper.
+
+   Kept inside @layer base, as the last rules in the layer, on purpose. The
+   on-screen folds use .hide { display:none !important }, and for important
+   declarations the cascade-layer order is REVERSED: an unlayered !important
+   would LOSE to that layered one. Declaring these unfold rules later in the
+   same layer lets source order (and specificity) decide, so they win. The few
+   rules that fight the unlayered desktop layout below use !important, which
+   beats any normal (non-important) unlayered declaration regardless of layer. */
+@media print {
+
+  /* Interactive widget figures: show the static image, hide the live mount.
+     The .static-fallback span carries an inline display:none (set by the JS
+     toggle, see translator._static_fallback_img), so revealing it needs
+     !important to beat that inline style. The live mount is every non-fallback
+     child of a content-zone inside the figure: the <picture>/<img> for an image
+     figure, or the widget element (and its <script>s) for a :html: figure,
+     which RSM emits as its own .paragraph block inside the same <figure>. */
+  figure[data-static] .static-fallback {
+    display: revert !important;
+  }
+  figure[data-static] .static-fallback .static-fallback-light {
+    display: revert;
+  }
+  figure[data-static] .static-fallback .static-fallback-dark {
+    display: none;
+  }
+  /* Hide the live mount but keep the caption. A :html: figure renders the static
+     image, the live widget, and the :caption: as three separate handrails (the
+     widget is its own .paragraph block), each with its own .hr-content-zone.
+     Hiding non-fallback content-zone children swaps the live image/widget for
+     the static one, but the figcaption's zone must be excluded or the printed
+     caption text would vanish and leave an empty caption box. */
+  figure[data-static] .hr-content-zone:not(figcaption *) > :not(.static-fallback):not(noscript) {
+    display: none !important;
+  }
+
+  /* Screen-only chrome: none of it belongs in a printed document. The rail
+     hides every form it takes (desktop side panel and mobile bottom-sheet
+     drawer share the .proof-rail class). The handrail gutter holds collapse
+     chevrons and the dots menu; the back-pill, focus-mode exit bar, toasts,
+     tooltips, theme toggle, and the source modal are all transient overlays. */
+  .proof-rail,
+  .hr-collapse-zone,
+  .hr-menu-zone,
+  .rsm-back-pill,
+  .proof-focus-exit,
+  .toast,
+  .tooltipster-base,
+  .rsm-theme-toggle,
+  .rsm-source-modal,
+  .rsm-source {
+    display: none !important;
+  }
+
+  /* The border-zone is the gutter holding the dots and the handrail's vertical
+     rule. Hide it on every block except proofs. On a proof we keep that vertical
+     rule as a printed "proof bracket" marking the proof's extent: reveal the zone
+     (it sits at opacity:0 off-screen until hover), paint only the rule (the rect)
+     and not the dots, and clear the collapsed fold cap so it reads as one clean
+     vertical line. Only the proof's own direct rule shows; nested step rules stay
+     hidden so the bracket is not doubled. */
+  *:not(.proof) > .hr-border-zone {
+    display: none !important;
+  }
+  .proof.hr > .hr-border-zone {
+    opacity: 1 !important;
+  }
+  .proof.hr > .hr-border-zone > .hr-border-dots {
+    display: none !important;
+  }
+  .proof.hr > .hr-border-zone > .hr-border-rect {
+    /* The on-screen rect is shifted up by two gutter-zone heights to clear the
+       stacked collapse/menu zones; those are gone in print, so reset it to sit
+       flush with the proof. Also drop the collapsed fold cap (border-bottom) so
+       the bracket is a single clean vertical line. */
+    top: 0 !important;
+    border-bottom: none !important;
+  }
+
+  /* Unfold everything JS collapsed. closeHandrail adds .hide (display:none
+     !important) to a collapsed block's body and the page shows a "steps hidden"
+     tombstone; :collapsed: proofs and focus mode do the same. A PDF reader must
+     see every step and proof, so re-show the hidden bodies and drop the
+     tombstones. The unfolded body is either a handrail block (.hr, laid out as
+     flex) or plain block content, so restore each its own display rather than
+     `revert` (which would roll back to .hide's display:none); the higher-
+     specificity .hr.hide rule then wins the flex case over the block default.
+
+     Exclude .rsm-source: it is the view-source payload (the raw RSM markup the
+     build ships hidden for the copy-source feature) and it also carries .hide,
+     so without this guard the unfold would dump the literal source onto the
+     printed page. It is the one .hide element baked into the static HTML;
+     collapsed handrail bodies get .hide from JS at runtime. */
+  .manuscriptwrapper .hide:not(.rsm-source) {
+    display: block !important;
+  }
+  .manuscriptwrapper .hr.hide {
+    display: flex !important;
+  }
+  .hr.hr-collapsed > .hr-content-zone::after {
+    content: none !important;
+  }
+  /* A collapsed block caps its gutter with a border-bottom on the spacer-zone
+     (the rounded foot of the fold). Print unfolds the body above but leaves the
+     .hr-collapsed class, so that cap would print as a stray ~16px dash at the
+     block's bottom-left. Drop only the border, not the zone: the 16px spacer is
+     what aligns every handrail's content onto one left column, so removing the
+     zone would shift collapsed blocks left and break that shared edge. The cap
+     is set by two branches, and the .hr-labeled/.step one (matching proofs and
+     steps) outranks a plain selector here, so use !important to beat both. */
+  .manuscriptwrapper .hr.hr-collapsed > .hr-spacer-zone {
+    border-bottom: none !important;
+  }
+
+  /* Layout: with the rail gone, reclaim the gutter the desktop layout reserves
+     for it (the >=1321px rule pushes the column right by the rail's width) and
+     re-centre the column on the page. !important is needed because that rule is
+     unlayered and would otherwise outrank this layered one. */
+  .manuscriptwrapper {
+    margin: 0 auto !important;
+    max-width: 100% !important;
+  }
+
+  @page {
+    margin: 2cm;
+  }
+
+  /* Keep mathematical units intact across page breaks, and keep a heading with
+     the content it introduces. break-inside is the modern property; the legacy
+     page-break-inside is kept for older print engines. */
+  figure,
+  .theorem,
+  .proof,
+  .mathblock,
+  .step {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}
+
+}
+
+
+/* pseudocode.js overrides -- outside @layer to beat inline styles.
+   pseudocode.js injects KaTeX_Main via inline style attributes;
+   !important is required to override them. */
+
+.ps-root {
+  font-family: var(--font-body) !important;
+  font-weight: 450 !important;
+  color: var(--text-body) !important;
+}
+
+.ps-keyword {
+  font-family: var(--font-body) !important;
+  font-weight: var(--weight-bold) !important;
+}
+
+.ps-funcname {
+  font-family: var(--font-body) !important;
+  font-variant: small-caps;
+}
+
+.ps-comment {
+  font-family: var(--font-body) !important;
+  color: var(--text-subtle) !important;
+}
+
+.ps-line {
+  font-family: var(--font-body) !important;
+}
+
+.ps-linenum {
+  font-family: var(--font-mono) !important;
+  color: var(--text-subtle) !important;
+  font-size: 0.85em;
+}
+
+.ps-algorithm {
+  border-color: var(--gray-300) !important;
+}
+
+.ps-algorithm > .ps-line:first-child {
+  border-top-color: var(--gray-300) !important;
+}
+
+/* Preamble math nodes contain macro definitions and should be invisible */
+.math-preamble { display: none; }
+
+/* Desktop side-rail responsive behavior: the rail shrinks 380px -> 300px as the
+   margin tightens (content stays centred); at the 300px min it pushes the
+   content to the right so it never overlaps. Below ~1320px (the @media above)
+   the content can no longer fit beside the min rail, so the rail becomes a
+   bottom-sheet drawer and the content re-centres. */
+@media (min-width: 1321px) {
+  .manuscriptwrapper .proof-rail.active:not(.collapsed) {
+    width: clamp(300px, calc((100vw - var(--content-max-width, var(--chunk-20))) / 2 - 2rem), 380px);
+  }
+  .manuscriptwrapper {
+    /* The rail supplies the left margin, so trim the column's own side padding;
+       otherwise the text sits ~104px inside the box, far from the rail. */
+    --side-padding: 2rem;
+    margin-left: max(
+      calc((100vw - var(--content-max-width, var(--chunk-20))) / 2),
+      calc(1rem + clamp(300px, calc((100vw - var(--content-max-width, var(--chunk-20))) / 2 - 2rem), 380px) + 1rem)
+    );
+    margin-right: auto;
+  }
+}
