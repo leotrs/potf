@@ -11,6 +11,8 @@ while the author's argument stays invariant.
 This is a submission to the AMR [Paper of the Future
 Prize](https://amathr.org/prizes/paper-of-the-future-prize/).
 
+![A proof shown beside its step-dependency graph, with the reader controls in the sidebar](screenshot.png)
+
 ## What's here
 
 - `main.rsm` — the paper's source.
